@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Card Styles */
+  .card {
+    @apply bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300;
+  }
+
+  .card-small {
+    @apply bg-white rounded-2xl p-6 shadow-sm border border-gray-100;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply flex items-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply flex items-center space-x-2 border border-teal-600 text-teal-600 px-6 py-3 rounded-lg hover:bg-teal-50 transition-colors;
+  }
+
+  .btn-icon {
+    @apply w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors;
+  }
+
+  /* Navigation Styles */
+  .nav-dot {
+    @apply w-2 h-2 rounded-full transition-colors;
+  }
+
+  .nav-dot-active {
+    @apply bg-teal-500;
+  }
+
+  .nav-dot-inactive {
+    @apply bg-gray-300;
+  }
+
+  /* Section Styles */
+  .section-title {
+    @apply text-3xl font-light text-gray-800 mb-12 tracking-widest text-center;
+  }
+
+  .section-subtitle {
+    @apply text-2xl font-light text-gray-800 mb-8 tracking-wide;
+  }
+
+  /* Skill Tag Styles */
+  .skill-tag {
+    @apply px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .skill-tag-blue {
+    @apply bg-blue-100 text-blue-700;
+  }
+
+  .skill-tag-orange {
+    @apply bg-orange-100 text-orange-700;
+  }
+
+  .skill-tag-red {
+    @apply bg-red-100 text-red-700;
+  }
+
+  .skill-tag-green {
+    @apply bg-green-100 text-green-700;
+  }
+
+  .skill-tag-purple {
+    @apply bg-purple-100 text-purple-700;
+  }
+
+  .skill-tag-gray {
+    @apply bg-gray-100 text-gray-700;
+  }
+
+  /* Layout Styles */
+  .container {
+    @apply max-w-6xl mx-auto px-6;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  /* Text Styles */
+  .text-heading {
+    @apply text-xl font-semibold text-gray-800;
+  }
+
+  .text-subheading {
+    @apply text-lg text-teal-600 font-medium;
+  }
+
+  .text-body {
+    @apply text-gray-600 leading-relaxed;
+  }
+
+  .text-small {
+    @apply text-sm text-gray-500;
+  }
+} 
