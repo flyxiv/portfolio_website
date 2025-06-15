@@ -17,14 +17,22 @@ const AboutMe = () => {
         </p>
         
         <div className="flex justify-center space-x-4">
-          <button className="flex items-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-colors">
+          <a 
+            href="/junyeop_na_resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-colors"
+          >
             <Download className="w-4 h-4" />
             <span>Download Resume</span>
-          </button>
-          <button className="flex items-center space-x-2 border border-teal-600 text-teal-600 px-6 py-3 rounded-lg hover:bg-teal-50 transition-colors">
+          </a>
+          <a 
+            href="mailto:junyeopna4@gmail.com"
+            className="flex items-center space-x-2 border border-teal-600 text-teal-600 px-6 py-3 rounded-lg hover:bg-teal-50 transition-colors"
+          >
             <Mail className="w-4 h-4" />
             <span>Contact Me</span>
-          </button>
+          </a>
         </div>
       </div>
     </div>

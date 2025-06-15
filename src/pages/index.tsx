@@ -89,21 +89,23 @@ const Portfolio = () => {
       period: "2020-2023"
     },
     {
-      title: "Subway Route Search Optimization",
-      description: "Invented multi-time table binary search algorithm which speed up subway route search by 5x, significantly improving user experience in public transportation navigation.",
+      title: "WIFI Fingerprint for Subway Location Estimation",
+      description: "Created Machine Learning system using different clustring algorithms for locating users in subways using WIFI logs, achieving 98+% accuracy in manual labeled validation dataset.",
       icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
       screenshot: "/images/works/wps.png",
       skills: [
-        "/images/skills/rust.png",
-        "/images/skills/golang.png",
-        "/images/skills/kubernetes.png",
-        "/images/skills/docker.png"
+        "/images/skills/python.png",
+        "/images/skills/spark.png",
+        "/images/skills/scikit.png",
+        "/images/skills/numpy.png",
+        "/images/skills/pandas.png",
+        "/images/skills/git.png"
       ],
       period: "2024"
     },
     {
       title: "Road Scene Object Detection",
-      description: "Developed computer vision model for detecting road scene objects, improving navigation safety and accuracy.",
+      description: "Developed computer vision model for detecting road scene objects, achieving +95% mAP@50 for more than 40 different categories and reducing manual labeling cost by 90%.",
       icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
       screenshot: "/images/works/road_detection.png",
       skills: [
@@ -159,7 +161,8 @@ const Portfolio = () => {
         "/images/skills/opencv.png",
         "/images/skills/fastapi.png",
         "/images/skills/gcp.png",
-        "/images/skills/kubernetes.png"
+        "/images/skills/docker.png",
+        "/images/skills/kubernetes.png",
       ],
       githubUrl: "https://github.com/flyxiv/nino",
       demoUrl: ""
