@@ -13,12 +13,12 @@ interface Project {
   demoUrl?: string;
 }
 
-interface FeaturedProjectsProps {
+interface SideProjectsProps {
   projects: Project[];
   skillColors: { [key: string]: string };
 }
 
-const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ projects, skillColors }) => {
+const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) => {
   const [currentProject, setCurrentProject] = useState(0);
 
   const nextProject = () => {
@@ -32,7 +32,7 @@ const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ projects, skillColo
   return (
     <div className="mb-24">
       <h2 className="text-3xl font-light text-gray-800 mb-12 tracking-widest text-center">
-        F E A T U R E D  &nbsp; P R O J E C T S
+        S I D E  &nbsp; P R O J E C T S
       </h2>
       
       <div className="relative">
@@ -56,18 +56,6 @@ const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ projects, skillColo
                 {projects[currentProject].title}
               </h3>
               
-              {/* Metrics */}
-              {projects[currentProject].metrics && (
-                <div className="space-y-3 mb-6">
-                  {Object.entries(projects[currentProject].metrics).map(([key, value]) => (
-                    <div key={key} className="flex justify-between">
-                      <span className="text-small text-gray-500 capitalize">{key}:</span>
-                      <span className="text-small font-medium text-teal-600">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              
               {/* Tech Stack */}
               <div className="flex flex-wrap gap-3">
                 {projects[currentProject].skills.map((skillUrl, i) => (
@@ -85,7 +73,7 @@ const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ projects, skillColo
             </div>
 
             {/* Right Side - Screenshot and Description */}
-            <div className="md:w-2/3 md:pl-8 md:border-l border-gray-200">
+            <div className="md:w-2/3">
               {/* Screenshot */}
               <div className="mb-8 rounded-lg overflow-hidden border border-gray-200">
                 <Image
@@ -160,4 +148,4 @@ const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ projects, skillColo
   );
 };
 
-export default FeaturedProjects; 
+export default SideProjects; 

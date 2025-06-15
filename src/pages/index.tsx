@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import AboutMe from '../components/AboutMe';
 import Experience from '../components/Experience';
 import FeaturedProjects from '../components/FeaturedProjects';
+import SideProjects from '../components/SideProjects';
 import Skills from '../components/Skills';
 import Footer from '../components/Footer';
 
@@ -71,7 +72,65 @@ const Portfolio = () => {
     },
   ];
 
-  const projects = [
+  const workProjects = [
+    {
+      title: "Real-time Travel Time Estimation",
+      description: "Developed Naver Map's first real-time Deep Learning Model for estimating travel time of car and public transportation routes, improving MAPE by 3%p.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/eta.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/tensorflow.png",
+        "/images/skills/spark.png",
+        "/images/skills/scikit.png",
+        "/images/skills/numpy.png",
+        "/images/skills/pandas.png"
+      ],
+      period: "2020-2023"
+    },
+    {
+      title: "Subway Route Search Optimization",
+      description: "Invented multi-time table binary search algorithm which speed up subway route search by 5x, significantly improving user experience in public transportation navigation.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/wps.png",
+      skills: [
+        "/images/skills/rust.png",
+        "/images/skills/golang.png",
+        "/images/skills/kubernetes.png",
+        "/images/skills/docker.png"
+      ],
+      period: "2024"
+    },
+    {
+      title: "Road Scene Object Detection",
+      description: "Developed computer vision model for detecting road scene objects, improving navigation safety and accuracy.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/road_detection.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/torch.png",
+        "/images/skills/opencv.png",
+        "/images/skills/fastapi.png"
+      ],
+      period: "2025-Present"
+    },
+    {
+      title: "Naver Maps Ferry Route Search",
+      description: "Spearheaded development of Naver Maps' ferry route search feature, providing users with real-time ferry schedules and route information.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/ferry.png",
+      skills: [
+        "/images/skills/rust.png",
+        "/images/skills/golang.png",
+        "/images/skills/kubernetes.png",
+        "/images/skills/docker.png"
+      ],
+      period: "2024"
+    }
+
+  ];
+
+  const sideProjects = [
     {
       title: "FFXIV Simhelper",
       description: "Developed a DPS simulator for an MMORPG(Final Fantasy XIV) using reinforcement learning, serving hundreds of users daily.",
@@ -89,6 +148,22 @@ const Portfolio = () => {
       githubUrl: "https://github.com/flyxiv/ffxiv_simhelper",
       demoUrl: "https://ffxivsimhelper.com"
     },
+    {
+      title: "Nino - 2D Pixel Art Collector",
+      description: "Developed a computer vision model system for collecting 2D pixel art in a given gameplay VOD or screenshot, which is used for training generation models to create demo pixel art sprites similar to the collected ones.",
+      icon: [],
+      screenshot: "/images/projects/nino_example.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/torch.png",
+        "/images/skills/opencv.png",
+        "/images/skills/fastapi.png",
+        "/images/skills/gcp.png",
+        "/images/skills/kubernetes.png"
+      ],
+      githubUrl: "https://github.com/flyxiv/nino",
+      demoUrl: ""
+    }
   ];
 
   const skillColors = {
@@ -127,7 +202,8 @@ const Portfolio = () => {
       <main className="max-w-6xl mx-auto px-6 py-12">
         <AboutMe />
         <Experience experiences={experiences} skillColors={skillColors} />
-        <FeaturedProjects projects={projects} skillColors={skillColors} />
+        <FeaturedProjects projects={workProjects} skillColors={skillColors} />
+        <SideProjects projects={sideProjects} skillColors={skillColors} />
         <Skills skillColors={skillColors} />
       </main>
       <Footer />
