@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -18,13 +18,41 @@ interface ExperienceProps {
 
 const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => {
   const [currentExperience, setCurrentExperience] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // 이미지 사전 로딩
+  useEffect(() => {
+    experiences.forEach((exp) => {
+      exp.logo.forEach((logoUrl) => {
+        const img = new window.Image();
+        img.src = logoUrl;
+      });
+      exp.skills.forEach((skillUrl) => {
+        const img = new window.Image();
+        img.src = skillUrl;
+      });
+    });
+  }, [experiences]);
 
   const nextExperience = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentExperience((prev) => (prev + 1) % experiences.length);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const prevExperience = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentExperience((prev) => (prev - 1 + experiences.length) % experiences.length);
+    setTimeout(() => setIsTransitioning(false), 300);
+  };
+
+  const goToExperience = (index: number) => {
+    if (isTransitioning || index === currentExperience) return;
+    setIsTransitioning(true);
+    setCurrentExperience(index);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   return (
@@ -33,7 +61,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
       
       <div className="relative">
         <div className="card max-w-4xl mx-auto min-h-[400px]">
-          <div className="flex flex-col">
+          <div className={`flex flex-col transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
             <div className="mb-8">
               <div className="flex gap-4 mb-6">
                 {experiences[currentExperience].logo.map((logoUrl, index) => (
@@ -44,6 +72,8 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
                       width={60}
                       height={60}
                       className="w-full h-full object-contain"
+                      priority={index === 0}
+                      loading={index === 0 ? 'eager' : 'lazy'}
                     />
                   </div>
                 ))}
@@ -67,6 +97,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
                       width={60}
                       height={60}
                       className="w-full h-full object-contain"
+                      loading="lazy"
                     />
                   </div>
                 ))}
@@ -88,13 +119,15 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
 
         <button 
           onClick={prevExperience}
-          className="btn-icon absolute left-0 top-[200px] transform -translate-x-4"
+          disabled={isTransitioning}
+          className="btn-icon absolute left-0 top-[200px] transform -translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronLeft className="w-5 h-5 text-gray-600" />
         </button>
         <button 
           onClick={nextExperience}
-          className="btn-icon absolute right-0 top-[200px] transform translate-x-4"
+          disabled={isTransitioning}
+          className="btn-icon absolute right-0 top-[200px] transform translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronRight className="w-5 h-5 text-gray-600" />
         </button>
@@ -103,8 +136,11 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
           {experiences.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentExperience(index)}
-              className={`nav-dot ${index === currentExperience ? 'nav-dot-active' : 'nav-dot-inactive'}`}
+              onClick={() => goToExperience(index)}
+              disabled={isTransitioning}
+              className={`nav-dot transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${
+                index === currentExperience ? 'nav-dot-active' : 'nav-dot-inactive'
+              }`}
             />
           ))}
         </div>

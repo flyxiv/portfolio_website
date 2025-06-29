@@ -22,12 +22,12 @@
   }
 
   .btn-icon {
-    @apply w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors;
+    @apply w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   /* Navigation Styles */
   .nav-dot {
-    @apply w-2 h-2 rounded-full transition-colors;
+    @apply w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed;
   }
 
   .nav-dot-active {
@@ -36,6 +36,19 @@
 
   .nav-dot-inactive {
     @apply bg-gray-300;
+  }
+
+  /* Animation Styles */
+  .fade-transition {
+    @apply transition-opacity duration-300;
+  }
+
+  .slide-transition {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  .scale-hover {
+    @apply transition-transform duration-200 hover:scale-105;
   }
 
   /* Section Styles */

@@ -117,6 +117,20 @@ const Portfolio = () => {
       period: "2025-Present"
     },
     {
+      title: "User Feedback Automation Using LangGraph AI Agent",
+      description: "Created LLM agent for automating customer feedback, using self-made framework similar to LangGraph and RAG support from LangChain. Automated 87% of customer feedback which was previously processed by engineers manually.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/qabot.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/langchain.png",
+        "/images/skills/langgraph.png",
+        "/images/skills/numpy.png",
+        "/images/skills/pandas.png",
+      ],
+      period: "2025-Present"
+    },
+    {
       title: "Naver Maps Ferry Route Search",
       description: "Spearheaded development of Naver Maps' ferry route search feature, providing users with real-time ferry schedules and route information.",
       icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Github, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 
@@ -20,13 +20,44 @@ interface SideProjectsProps {
 
 const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) => {
   const [currentProject, setCurrentProject] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // 이미지 사전 로딩
+  useEffect(() => {
+    projects.forEach((project) => {
+      project.icon.forEach((iconUrl) => {
+        const img = new window.Image();
+        img.src = iconUrl;
+      });
+      project.skills.forEach((skillUrl) => {
+        const img = new window.Image();
+        img.src = skillUrl;
+      });
+      // 스크린샷도 사전 로딩
+      const screenshotImg = new window.Image();
+      screenshotImg.src = project.screenshot;
+    });
+  }, [projects]);
 
   const nextProject = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentProject((prev) => (prev + 1) % projects.length);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const prevProject = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentProject((prev) => (prev - 1 + projects.length) % projects.length);
+    setTimeout(() => setIsTransitioning(false), 300);
+  };
+
+  const goToProject = (index: number) => {
+    if (isTransitioning || index === currentProject) return;
+    setIsTransitioning(true);
+    setCurrentProject(index);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   return (
@@ -37,7 +68,7 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
       
       <div className="relative">
         <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row">
+          <div className={`flex flex-col md:flex-row transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
             <div className="md:w-1/3 mb-6 md:mb-0 md:pr-8">
               <div className="flex gap-4 mb-6">
                 {projects[currentProject].icon.map((iconUrl, index) => (
@@ -48,6 +79,8 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
                       width={80}
                       height={48}
                       className="w-full h-full object-contain"
+                      priority={index === 0}
+                      loading={index === 0 ? 'eager' : 'lazy'}
                     />
                   </div>
                 ))}
@@ -66,6 +99,7 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
                       width={60}
                       height={60}
                       className="w-full h-full object-contain"
+                      loading="lazy"
                     />
                   </div>
                 ))}
@@ -82,6 +116,8 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
                   width={800}
                   height={450}
                   className="w-full h-auto"
+                  priority
+                  loading="eager"
                 />
               </div>
 
@@ -120,13 +156,15 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
         {/* Navigation Buttons */}
         <button 
           onClick={prevProject}
-          className="absolute left-0 top-[200px] transform -translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          disabled={isTransitioning}
+          className="absolute left-0 top-[200px] transform -translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronLeft className="w-5 h-5 text-gray-600" />
         </button>
         <button 
           onClick={nextProject}
-          className="absolute right-0 top-[200px] transform translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          disabled={isTransitioning}
+          className="absolute right-0 top-[200px] transform translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronRight className="w-5 h-5 text-gray-600" />
         </button>
@@ -136,8 +174,9 @@ const SideProjects: React.FC<SideProjectsProps> = ({ projects, skillColors }) =>
           {projects.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentProject(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
+              onClick={() => goToProject(index)}
+              disabled={isTransitioning}
+              className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${
                 index === currentProject ? 'bg-teal-500' : 'bg-gray-300'
               }`}
             />
