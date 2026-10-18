@@ -58,7 +58,7 @@ sudo -u portfolio-deploy bash -c '
   flock -w 600 9
   previous=$(readlink -f "$base/previous")
   test -f "$previous/start.sh"
-  ln -s "$previous" "$base/current.next"
+  ln -sfn "$previous" "$base/current.next"
   mv -Tf "$base/current.next" "$base/current"
   sudo -n /usr/bin/systemctl restart portfolio.service
 '
@@ -66,6 +66,7 @@ sudo -u portfolio-deploy bash -c '
 
 Then check the local and public revision endpoints. Failed preview releases do not
 change `current`; rerunning a deployment for an already-staged SHA reuses its release.
+Rerunning an already-healthy active SHA preserves the previous rollback target.
 To change installed deploy scripts or the service definition, review and reinstall
 those files as administrator; an ordinary application deployment cannot rewrite them.
 To rotate credentials, replace the restricted authorized key and the matching GitHub

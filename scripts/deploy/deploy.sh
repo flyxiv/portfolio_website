@@ -13,7 +13,7 @@ previous=$(readlink -f "$base/current")
 switched=false
 
 point_current() {
-  ln -s "$1" "$base/current.next"
+  ln -sfn "$1" "$base/current.next"
   mv -Tf "$base/current.next" "$base/current"
 }
 
@@ -55,6 +55,10 @@ python3 /usr/local/lib/portfolio/extract-release.py "$incoming/release.tar.gz" "
 [[ $(cat "$incoming/unpacked/public/deployment-revision.txt") == "$revision" ]] || { echo 'Revision mismatch' >&2; exit 1; }
 release="$base/releases/$revision"
 if [[ ! -d "$release" ]]; then mv "$incoming/unpacked" "$release"; fi
+if [[ "$release" == "$previous" ]] && healthy 3001 "$revision"; then
+  echo "Already active: $revision (previous rollback target preserved)"
+  exit 0
+fi
 cd "$release"
 PORT=3002 HOSTNAME=127.0.0.1 NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 \
   /bin/bash ./start.sh > "$incoming/preview.log" 2>&1 &
