@@ -1,0 +1,538 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SPORTER · news coverage review</title><style>body{font:16px/1.6 system-ui,sans-serif;color:#183044;background:#f3f6fa;margin:0}main{max-width:1100px;margin:auto;padding:32px}h1,h2{line-height:1.2}section,details{background:white;border:1px solid #cbd5e1;border-radius:12px;padding:20px;margin:18px 0}a{color:#075a9e}svg{width:100%;height:auto}text{font:16px system-ui;fill:#183044}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 ui-monospace,monospace;background:#f1f5f9;padding:16px}.add{color:#126234}.del{color:#9f2424}input{font:inherit;padding:8px;width:90%}summary{cursor:pointer;font-weight:650}table{border-collapse:collapse;width:100%}td,th{text-align:left;border-bottom:1px solid #cbd5e1;padding:10px}nav{display:flex;gap:24px;flex-wrap:wrap}.bar{display:inline-block;background:#087f5b;height:14px}</style></head><body><main><h1>SPORTER · news coverage review</h1><p>E:\portfolio_website · flyxiv/portfolio_website · main · baseline <code>1f9713aa807bff2294b8c727d2fed7139ac4d186</code><br>Task started 2026-10-19T03:14:40.869375; updated 2026-10-19T04:01:01. Implemented uncommitted working tree; no task commits.</p><nav><a href="../../index.html">Architecture overview</a><a href="../index.html">Change history</a><a href="https://github.com/flyxiv/portfolio_website/issues/6">GitHub issue #6</a></nav><section><h2>Outcome and scope</h2><p>Added a SPORTER card with three dated news summaries. Follow-up incorporates the user-provided contribution description and updated BestCrop/BestCut copy; existing skill arrays and separate images are retained.</p><p>Personal contribution and usage claims come from the user-provided text; dated news summaries remain attributed to publishers. Follow-up scope expanded from news-only to reconciling project descriptions and explicit skill arrays. No binary changes or dependencies planned/added. No live news feed; links are curated as of 2026-10-19.</p></section><section><h2>As-is</h2><svg viewBox="0 0 1050 155" role="img" aria-label="Portfolio.workProjects|7 existing cards to FeaturedProjects|Required screenshot to Carousel selection|No news links"><rect x="10" y="20" width="325" height="100" rx="12" fill="#e8eef5" stroke="#62778b"/><text x="26" y="62"><tspan x="26" dy="0">Portfolio.workProjects</tspan><tspan x="26" dy="26">7 existing cards</tspan></text><path d="M335 70 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="360" y="20" width="325" height="100" rx="12" fill="#e8eef5" stroke="#62778b"/><text x="376" y="62"><tspan x="376" dy="0">FeaturedProjects</tspan><tspan x="376" dy="26">Required screenshot</tspan></text><path d="M685 70 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="710" y="20" width="325" height="100" rx="12" fill="#e8eef5" stroke="#62778b"/><text x="726" y="62"><tspan x="726" dy="0">Carousel selection</tspan><tspan x="726" dy="26">No news links</tspan></text></svg><h2>To-be (implemented)</h2><svg viewBox="0 0 1050 155" role="img" aria-label="Portfolio.workProjects|8 cards incl. SPORTER to FeaturedProjects|Optional image + news to Select SPORTER|Open dated news source"><rect x="10" y="20" width="325" height="100" rx="12" fill="#fff0bf" stroke="#62778b"/><text x="26" y="62"><tspan x="26" dy="0">Portfolio.workProjects</tspan><tspan x="26" dy="26">8 cards incl. SPORTER</tspan></text><path d="M335 70 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="360" y="20" width="325" height="100" rx="12" fill="#fff0bf" stroke="#62778b"/><text x="376" y="62"><tspan x="376" dy="0">FeaturedProjects</tspan><tspan x="376" dy="26">Optional image + news</tspan></text><path d="M685 70 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="710" y="20" width="325" height="100" rx="12" fill="#d7f4e7" stroke="#62778b"/><text x="726" y="62"><tspan x="726" dy="0">Select SPORTER</tspan><tspan x="726" dy="26">Open dated news source</tspan></text></svg><p>Legend: gray = unchanged; amber = changed; green = added; red = removed (none). Verified source relationships; SPORTER internal architecture is outside this repository and is not inferred.</p><p>Flow: select card → local currentProject state → render optional news list → user follows publisher link in a new tab. Existing previous/next/dot behavior remains.</p></section><section><h2>Research and attribution</h2><ul><li><a href="https://www.ajupress.com/view/20261005191270144">Aju Press · October 6, 2026</a>: AI clip reach and output during the Asian Games; publication date read from page, not URL. English article is marked AI-translated.</li><li><a href="https://v.daum.net/v/20260926113110332">Business Watch via Daum · September 26, 2026</a>: SPORTER deployment, AI clips and chapters, multi-source highlights.</li><li><a href="https://ceoscoredaily.com/page/view/2026031816463070703">CEOSCOREDAILY · March 19, 2026</a>: development before the World Cup; this is historical reporting, not current development status.</li></ul></section><section><h2>Stable baseline and preserved work</h2><p>Original source bytes and SHA-256 inventory captured under .git/task-reviews/20261019-sporter before implementation. Diffs below compare against those dirty-worktree contents, not HEAD. Unrelated assets and Skills are checked by hash. Earlier reports remain intact.</p><pre> M src/components/FeaturedProjects.tsx
+ M src/components/Skills.tsx
+ M src/pages/index.tsx
+?? docs/
+?? public/images/skills/tensorrt.svg
+?? public/images/skills/triton.svg
+?? public/images/works/bestcrop-comparison.png
+?? public/images/works/bestcut.png
+</pre></section><section><h2>Complete source change inventory</h2><table><tr><th>Subsystem / file</th><th>Purpose</th><th>Size</th></tr><tr><td>src/pages/index.tsx</td><td>SPORTER entry, source summaries, news links and user-supplied BestCrop/BestCut copy</td><td>+36 / −3<br><span class="bar" style="width:78px"></span></td></tr><tr><td>src/components/FeaturedProjects.tsx</td><td>Optional images, news rendering and labeled carousel controls</td><td>+58 / −5<br><span class="bar" style="width:126px"></span></td></tr></table><p>Task totals: +94 / −8. Two modified application text files; no additions/deletions/renames or binary changes in application source.</p></section><section><h2>Inspectable task diffs</h2><details><summary>src/pages/index.tsx (+36/−3)</summary><pre><span class="del">--- task-baseline/src/pages/index.tsx</span>
+<span class="add">+++ working-tree/src/pages/index.tsx</span>
+<span class="">@@ -73,9 +73,42 @@</span>
+<span class="">   ];</span>
+<span class=""> </span>
+<span class="">   const workProjects = [</span>
+<span class="add">+    {</span>
+<span class="add">+      title: &quot;SPORTER - AI Highlight Generation System for Soccer and Esports&quot;,</span>
+<span class="add">+      description: &quot;Developed AI models for the SPORTER System: automated realtime clips/highlight generation system for CHZZK&#x27;s 2026 World Cup, MSI, EWC, Asian Games, collecting 100 million total views.&quot;,</span>
+<span class="add">+      icon: [&quot;/images/naver_icon.png&quot;],</span>
+<span class="add">+      skills: [],</span>
+<span class="add">+      period: &quot;2026&quot;,</span>
+<span class="add">+      news: [</span>
+<span class="add">+        {</span>
+<span class="add">+          title: &quot;Asian Games AI clips reach 53.2 million views&quot;,</span>
+<span class="add">+          publisher: &quot;Aju Press&quot;,</span>
+<span class="add">+          date: &quot;2026-10-06&quot;,</span>
+<span class="add">+          dateLabel: &quot;Oct 6, 2026&quot;,</span>
+<span class="add">+          url: &quot;https://www.ajupress.com/view/20261005191270144&quot;,</span>
+<span class="add">+          summary: &quot;Reports more than 4,600 AI clips and 53.2 million views as of October 4, with SPORTER supporting highlight creation across the Asian Games.&quot;</span>
+<span class="add">+        },</span>
+<span class="add">+        {</span>
+<span class="add">+          title: &quot;SPORTER brings AI highlights to the Asian Games&quot;,</span>
+<span class="add">+          publisher: &quot;Business Watch (Korean)&quot;,</span>
+<span class="add">+          date: &quot;2026-09-26&quot;,</span>
+<span class="add">+          dateLabel: &quot;Sep 26, 2026&quot;,</span>
+<span class="add">+          url: &quot;https://v.daum.net/v/20260926113110332&quot;,</span>
+<span class="add">+          summary: &quot;Covers SPORTER&#x27;s use on CHZZK, including AI clips and chapters, alongside multi-source highlights that group footage by athlete, team or topic.&quot;</span>
+<span class="add">+        },</span>
+<span class="add">+        {</span>
+<span class="add">+          title: &quot;NAVER develops SPORTER ahead of the World Cup&quot;,</span>
+<span class="add">+          publisher: &quot;CEOSCOREDAILY (Korean)&quot;,</span>
+<span class="add">+          date: &quot;2026-03-19&quot;,</span>
+<span class="add">+          dateLabel: &quot;Mar 19, 2026&quot;,</span>
+<span class="add">+          url: &quot;https://ceoscoredaily.com/page/view/2026031816463070703&quot;,</span>
+<span class="add">+          summary: &quot;Early reporting describes development of an AI system to detect key moments during matches and generate highlight clips in real time.&quot;</span>
+<span class="add">+        }</span>
+<span class="add">+      ]</span>
+<span class="add">+    },</span>
+<span class=""> 	{</span>
+<span class=""> 		title: &quot;BestCrop - AI Model For Recommending Best Thumbnail Crop Region For User Images&quot;,</span>
+<span class="del">-		description: &quot;Developed and deployed Computer Vision model that recommends the best region of a given image to use as a thumbnail. The illustration compares a centered square crop with a caption-preserving crop.&quot;,</span>
+<span class="add">+		description: &quot;Developed an AI model that recommends the best region of an image to use as a thumbnail. The model automatically generates thumbnails for millions of NAVER content items, including blogs, news, and clips, every day, and for posts in NAVER&#x27;s Home Feed.&quot;,</span>
+<span class=""> 		icon: [&quot;/images/naver_icon.png&quot;],</span>
+<span class=""> 		screenshot: &quot;/images/works/bestcrop-comparison.png&quot;,</span>
+<span class=""> 		skills: [</span>
+<span class="">@@ -88,8 +121,8 @@</span>
+<span class=""> 		period: &quot;2026&quot;</span>
+<span class=""> 	},</span>
+<span class=""> 	{</span>
+<span class="del">-		title: &quot;BestCut - AI Model For Selecting Blog Thumbnails&quot;,</span>
+<span class="del">-		description: &quot;Recommends a thumbnail by comparing a blog title embedding with candidate image embeddings using cosine similarity. The illustration shows five images from one post and selects the highest-scoring image. Scores are illustrative.&quot;,</span>
+<span class="add">+		title: &quot;BestCut - AI Model for Recommending Thumbnails Relevant to the Title&quot;,</span>
+<span class="add">+		description: &quot;Developed an image-text multimodal embedding and aesthetic scoring model tailored to the language and media in NAVER user posts. The model selects an image that is relevant to a post&#x27;s title and suitable for its thumbnail. The illustration shows example scores.&quot;,</span>
+<span class=""> 		icon: [&quot;/images/naver_icon.png&quot;],</span>
+<span class=""> 		screenshot: &quot;/images/works/bestcut.png&quot;,</span>
+<span class=""> 		skills: [</span></pre></details><details><summary>src/components/FeaturedProjects.tsx (+58/−5)</summary><pre><span class="del">--- task-baseline/src/components/FeaturedProjects.tsx</span>
+<span class="add">+++ working-tree/src/components/FeaturedProjects.tsx</span>
+<span class="">@@ -6,12 +6,20 @@</span>
+<span class="">   title: string;</span>
+<span class="">   description: string;</span>
+<span class="">   icon: string[];</span>
+<span class="del">-  screenshot: string;</span>
+<span class="add">+  screenshot?: string;</span>
+<span class="">   metrics?: { [key: string]: string };</span>
+<span class="">   skills: string[];</span>
+<span class="">   skillLabels?: string[];</span>
+<span class="">   githubUrl?: string;</span>
+<span class="">   demoUrl?: string;</span>
+<span class="add">+  news?: {</span>
+<span class="add">+    title: string;</span>
+<span class="add">+    publisher: string;</span>
+<span class="add">+    date: string;</span>
+<span class="add">+    dateLabel: string;</span>
+<span class="add">+    url: string;</span>
+<span class="add">+    summary: string;</span>
+<span class="add">+  }[];</span>
+<span class=""> }</span>
+<span class=""> </span>
+<span class=""> interface FeaturedProjectsProps {</span>
+<span class="">@@ -35,8 +43,10 @@</span>
+<span class="">         img.src = skillUrl;</span>
+<span class="">       });</span>
+<span class="">       // 스크린샷도 사전 로딩</span>
+<span class="del">-      const screenshotImg = new window.Image();</span>
+<span class="del">-      screenshotImg.src = project.screenshot;</span>
+<span class="add">+      if (project.screenshot) {</span>
+<span class="add">+        const screenshotImg = new window.Image();</span>
+<span class="add">+        screenshotImg.src = project.screenshot;</span>
+<span class="add">+      }</span>
+<span class="">     });</span>
+<span class="">   }, [projects]);</span>
+<span class=""> </span>
+<span class="">@@ -127,9 +137,10 @@</span>
+<span class="">             {/* Right Side - Screenshot and Description */}</span>
+<span class="">             &lt;div className=&quot;md:w-2/3&quot;&gt;</span>
+<span class="">               {/* Screenshot */}</span>
+<span class="add">+              {projects[currentProject].screenshot &amp;&amp; (</span>
+<span class="">               &lt;div className=&quot;mb-8 rounded-lg overflow-hidden border border-gray-200&quot;&gt;</span>
+<span class="">                 &lt;Image</span>
+<span class="del">-                  src={projects[currentProject].screenshot}</span>
+<span class="add">+                  src={projects[currentProject].screenshot!}</span>
+<span class="">                   alt={`${projects[currentProject].title} screenshot`}</span>
+<span class="">                   width={800}</span>
+<span class="">                   height={450}</span>
+<span class="">@@ -138,10 +149,48 @@</span>
+<span class="">                   loading=&quot;eager&quot;</span>
+<span class="">                 /&gt;</span>
+<span class="">               &lt;/div&gt;</span>
+<span class="add">+              )}</span>
+<span class=""> </span>
+<span class="">               &lt;p className=&quot;text-gray-600 leading-relaxed mb-6&quot;&gt;</span>
+<span class="">                 {projects[currentProject].description}</span>
+<span class="">               &lt;/p&gt;</span>
+<span class="add">+</span>
+<span class="add">+              {projects[currentProject].news?.length ? (</span>
+<span class="add">+                &lt;section aria-label=&quot;News coverage&quot; className=&quot;mb-6&quot;&gt;</span>
+<span class="add">+                  &lt;h4 className=&quot;text-sm font-semibold uppercase tracking-wider text-teal-700 mb-2&quot;&gt;</span>
+<span class="add">+                    In the news</span>
+<span class="add">+                  &lt;/h4&gt;</span>
+<span class="add">+                  &lt;p className=&quot;text-xs text-gray-500 mb-4&quot;&gt;</span>
+<span class="add">+                    Public reporting on the system. Figures reflect the dates cited below.</span>
+<span class="add">+                  &lt;/p&gt;</span>
+<span class="add">+                  &lt;ul className=&quot;space-y-3&quot;&gt;</span>
+<span class="add">+                    {projects[currentProject].news?.map((article) =&gt; (</span>
+<span class="add">+                      &lt;li key={article.url}&gt;</span>
+<span class="add">+                        &lt;a</span>
+<span class="add">+                          href={article.url}</span>
+<span class="add">+                          target=&quot;_blank&quot;</span>
+<span class="add">+                          rel=&quot;noopener noreferrer&quot;</span>
+<span class="add">+                          className=&quot;group block rounded-xl border border-gray-200 p-4 hover:border-teal-400 hover:bg-teal-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 transition-colors&quot;</span>
+<span class="add">+                        &gt;</span>
+<span class="add">+                          &lt;div className=&quot;flex flex-wrap gap-x-2 text-xs text-gray-500 mb-2&quot;&gt;</span>
+<span class="add">+                            &lt;span&gt;{article.publisher}&lt;/span&gt;</span>
+<span class="add">+                            &lt;span aria-hidden=&quot;true&quot;&gt;·&lt;/span&gt;</span>
+<span class="add">+                            &lt;time dateTime={article.date}&gt;{article.dateLabel}&lt;/time&gt;</span>
+<span class="add">+                          &lt;/div&gt;</span>
+<span class="add">+                          &lt;div className=&quot;flex items-start justify-between gap-3&quot;&gt;</span>
+<span class="add">+                            &lt;span className=&quot;text-sm font-semibold text-gray-800 group-hover:text-teal-700&quot;&gt;</span>
+<span class="add">+                              {article.title}</span>
+<span class="add">+                            &lt;/span&gt;</span>
+<span class="add">+                            &lt;ExternalLink aria-hidden=&quot;true&quot; className=&quot;w-4 h-4 shrink-0 text-teal-600 mt-0.5&quot; /&gt;</span>
+<span class="add">+                          &lt;/div&gt;</span>
+<span class="add">+                          &lt;p className=&quot;text-sm leading-relaxed text-gray-600 mt-2&quot;&gt;{article.summary}&lt;/p&gt;</span>
+<span class="add">+                          &lt;span className=&quot;sr-only&quot;&gt; (opens in a new tab)&lt;/span&gt;</span>
+<span class="add">+                        &lt;/a&gt;</span>
+<span class="add">+                      &lt;/li&gt;</span>
+<span class="add">+                    ))}</span>
+<span class="add">+                  &lt;/ul&gt;</span>
+<span class="add">+                &lt;/section&gt;</span>
+<span class="add">+              ) : null}</span>
+<span class="">               </span>
+<span class="">               &lt;div className=&quot;flex space-x-4&quot;&gt;</span>
+<span class="">                 {projects[currentProject].githubUrl &amp;&amp; (</span>
+<span class="">@@ -174,6 +223,7 @@</span>
+<span class="">         {/* Navigation Buttons */}</span>
+<span class="">         &lt;button </span>
+<span class="">           onClick={prevProject}</span>
+<span class="add">+          aria-label=&quot;Previous featured project&quot;</span>
+<span class="">           disabled={isTransitioning}</span>
+<span class="">           className=&quot;absolute left-0 top-[200px] transform -translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;</span>
+<span class="">         &gt;</span>
+<span class="">@@ -181,6 +231,7 @@</span>
+<span class="">         &lt;/button&gt;</span>
+<span class="">         &lt;button </span>
+<span class="">           onClick={nextProject}</span>
+<span class="add">+          aria-label=&quot;Next featured project&quot;</span>
+<span class="">           disabled={isTransitioning}</span>
+<span class="">           className=&quot;absolute right-0 top-[200px] transform translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;</span>
+<span class="">         &gt;</span>
+<span class="">@@ -189,10 +240,12 @@</span>
+<span class=""> </span>
+<span class="">         {/* Dots Indicator */}</span>
+<span class="">         &lt;div className=&quot;flex justify-center mt-8 space-x-2&quot;&gt;</span>
+<span class="del">-          {projects.map((_, index) =&gt; (</span>
+<span class="add">+          {projects.map((project, index) =&gt; (</span>
+<span class="">             &lt;button</span>
+<span class="">               key={index}</span>
+<span class="">               onClick={() =&gt; goToProject(index)}</span>
+<span class="add">+              aria-label={`Show ${project.title}`}</span>
+<span class="add">+              aria-current={index === currentProject ? &#x27;true&#x27; : undefined}</span>
+<span class="">               disabled={isTransitioning}</span>
+<span class="">               className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${</span>
+<span class="">                 index === currentProject ? &#x27;bg-teal-500&#x27; : &#x27;bg-gray-300&#x27;</span></pre></details></section><section><h2>Report artifacts (excluded from source totals)</h2><ul><li>docs/codebase/index.html — refreshed current architecture, replacing accumulated superseded overview sections.</li><li>docs/codebase/changes/index.html — appended this task while retaining history.</li><li>docs/codebase/changes/20261019-031311-sporter-news/index.html — task baseline, diagrams, complete source diffs, verification.</li></ul><p>Report markup is excluded from diffs to avoid recursive generation. Private local review support files under .git include baseline snapshots, generator and verification scripts; these are not application deliverables.</p></section><section><h2>Verification and limits</h2><ul><li>PASS: npm run build (production compilation, TypeScript validation, page generation).</li><li>PASS: component server-render checks for all eight cards, news metadata and safe links, screenshots, generated home HTML, and preserved existing skills/assets. BestCrop/BestCut descriptions intentionally updated from user input.</li><li>PASS: HTML structural checks for inline SVG, navigation and complete diff inventory.</li><li>LIMIT: browser inventory has no available surfaces. No browser screenshots or interactive visual verification performed; report filter is structurally checked only.</li><li>Source implemented locally; user authorized commit and push to origin/main. Runtime deployment has not been verified. Integration status is recorded in issue #6.</li></ul><p>SPORTER skill stack remains unspecified (empty array); no technology claims were guessed. The latest user-authored description claiming 100 million total views is preserved and is not attributed to the linked Asian Games article. BestCrop/BestCut each have four named skills. The user requested committing and pushing this state.</p></section><section id="integration"><h2>Commit and push handoff</h2><p>User requested commit and push on 2026-10-19T04:00:51. Target: origin/main at https://github.com/flyxiv/portfolio_website.git. The batch includes this task and the earlier completed portfolio updates below. Remote completion and commit ID are recorded in <a href="https://github.com/flyxiv/portfolio_website/issues/6">issue #6</a>. Deployment to a running website is not verified.</p><p>The original task baseline above remains unchanged. Integration baseline HEAD: 1f9713aa807bff2294b8c727d2fed7139ac4d186. Latest SPORTER 100-million-view wording is a user-authored edit observed before integration; retained verbatim. SPORTER skill selection is deferred; empty array preserved.</p><table><tr><th>File</th><th>Ownership / properties</th><th>Final SHA-256</th></tr><tr><td>src/pages/index.tsx</td><td>Current task plus preserved earlier/user edits; 12333 bytes</td><td style="overflow-wrap:anywhere">d2812838b44fd74cc82dcf6f385331e0dc20431a40323932fc651558668e23c2</td></tr><tr><td>src/components/FeaturedProjects.tsx</td><td>Current task plus preserved earlier/user edits; 11173 bytes</td><td style="overflow-wrap:anywhere">36b4a9cc0fb3bec0c7b2b1b2aa85e4236b147e2a8dcdd8dbb04bf67a12bb6647</td></tr><tr><td>src/components/Skills.tsx</td><td>Earlier completed portfolio task; 1770 bytes</td><td style="overflow-wrap:anywhere">554a95cb193050c50638d07ad9bae61d8d00dc7b2e124298612123b23d4525af</td></tr><tr><td>public/images/skills/tensorrt.svg</td><td>Earlier completed portfolio task; 566 bytes</td><td style="overflow-wrap:anywhere">1244fd7b900a904057c7d9ad9865f9c87918a126493f3b5bf1c1663eb0fd221a</td></tr><tr><td>public/images/skills/triton.svg</td><td>Earlier completed portfolio task; 560 bytes</td><td style="overflow-wrap:anywhere">f6f06d8c316cdf1d6462b8eb83235ac4bbde3fabe58ea675da8fe80d42fd1ee1</td></tr><tr><td>public/images/works/bestcrop-comparison.png</td><td>Earlier completed portfolio task; 1591440 bytes; PNG 1248 x 1296; added since HEAD, binary change (no textual line count)</td><td style="overflow-wrap:anywhere">ae077131ffaa3c80b6de40fbb6efe6267a65cfbcf3e694f9b6685044f471aeed</td></tr><tr><td>public/images/works/bestcut.png</td><td>Earlier completed portfolio task; 530733 bytes; PNG 1800 x 1220; added since HEAD, binary change (no textual line count)</td><td style="overflow-wrap:anywhere">aabeda63c558e336fd7d663c1b48500e574963858f73d2b49ad6ec6d2da6bdad</td></tr></table><details><summary>Full batch source diff against HEAD (earlier task changes included)</summary><pre>diff --git a/src/pages/index.tsx b/src/pages/index.tsx
+index 6a179d6..9601524 100644
+--- a/src/pages/index.tsx
++++ b/src/pages/index.tsx
+@@ -74,35 +74,66 @@ const Portfolio = () =&gt; {
+ 
+   const workProjects = [
+     {
+-      title: &quot;Real-time Travel Time Estimation&quot;,
+-      description: &quot;Developed Naver Map&#x27;s first real-time Deep Learning Model for estimating travel time of car and public transportation routes, improving MAPE by 3%p.&quot;,
+-      icon: [&quot;/images/naver_icon.png&quot;, &quot;/images/navermaps_icon.webp&quot;],
+-      screenshot: &quot;/images/works/eta.png&quot;,
+-      skills: [
+-        &quot;/images/skills/python.png&quot;,
+-        &quot;/images/skills/tensorflow.png&quot;,
+-        &quot;/images/skills/spark.png&quot;,
+-        &quot;/images/skills/scikit.png&quot;,
+-        &quot;/images/skills/numpy.png&quot;,
+-        &quot;/images/skills/pandas.png&quot;
+-      ],
+-      period: &quot;2020-2023&quot;
+-    },
+-    {
+-      title: &quot;WIFI Fingerprint for Subway Location Estimation&quot;,
+-      description: &quot;Created Machine Learning system using different clustring algorithms for locating users in subways using WIFI logs, achieving 98+% accuracy in manual labeled validation dataset.&quot;,
+-      icon: [&quot;/images/naver_icon.png&quot;, &quot;/images/navermaps_icon.webp&quot;],
+-      screenshot: &quot;/images/works/wps.png&quot;,
+-      skills: [
+-        &quot;/images/skills/python.png&quot;,
+-        &quot;/images/skills/spark.png&quot;,
+-        &quot;/images/skills/scikit.png&quot;,
+-        &quot;/images/skills/numpy.png&quot;,
+-        &quot;/images/skills/pandas.png&quot;,
+-        &quot;/images/skills/git.png&quot;
+-      ],
+-      period: &quot;2024&quot;
++      title: &quot;SPORTER - AI Highlight Generation System for Soccer and Esports&quot;,
++      description: &quot;Developed AI models for the SPORTER System: automated realtime clips/highlight generation system for CHZZK&#x27;s 2026 World Cup, MSI, EWC, Asian Games, collecting 100 million total views.&quot;,
++      icon: [&quot;/images/naver_icon.png&quot;],
++      skills: [],
++      period: &quot;2026&quot;,
++      news: [
++        {
++          title: &quot;Asian Games AI clips reach 53.2 million views&quot;,
++          publisher: &quot;Aju Press&quot;,
++          date: &quot;2026-10-06&quot;,
++          dateLabel: &quot;Oct 6, 2026&quot;,
++          url: &quot;https://www.ajupress.com/view/20261005191270144&quot;,
++          summary: &quot;Reports more than 4,600 AI clips and 53.2 million views as of October 4, with SPORTER supporting highlight creation across the Asian Games.&quot;
++        },
++        {
++          title: &quot;SPORTER brings AI highlights to the Asian Games&quot;,
++          publisher: &quot;Business Watch (Korean)&quot;,
++          date: &quot;2026-09-26&quot;,
++          dateLabel: &quot;Sep 26, 2026&quot;,
++          url: &quot;https://v.daum.net/v/20260926113110332&quot;,
++          summary: &quot;Covers SPORTER&#x27;s use on CHZZK, including AI clips and chapters, alongside multi-source highlights that group footage by athlete, team or topic.&quot;
++        },
++        {
++          title: &quot;NAVER develops SPORTER ahead of the World Cup&quot;,
++          publisher: &quot;CEOSCOREDAILY (Korean)&quot;,
++          date: &quot;2026-03-19&quot;,
++          dateLabel: &quot;Mar 19, 2026&quot;,
++          url: &quot;https://ceoscoredaily.com/page/view/2026031816463070703&quot;,
++          summary: &quot;Early reporting describes development of an AI system to detect key moments during matches and generate highlight clips in real time.&quot;
++        }
++      ]
+     },
++	{
++		title: &quot;BestCrop - AI Model For Recommending Best Thumbnail Crop Region For User Images&quot;,
++		description: &quot;Developed an AI model that recommends the best region of an image to use as a thumbnail. The model automatically generates thumbnails for millions of NAVER content items, including blogs, news, and clips, every day, and for posts in NAVER&#x27;s Home Feed.&quot;,
++		icon: [&quot;/images/naver_icon.png&quot;],
++		screenshot: &quot;/images/works/bestcrop-comparison.png&quot;,
++		skills: [
++			&quot;/images/skills/tensorflow.png&quot;,
++			&quot;/images/skills/torch.png&quot;,
++			&quot;/images/skills/tensorrt.svg&quot;,
++			&quot;/images/skills/triton.svg&quot;
++		],
++		skillLabels: [&quot;TensorFlow&quot;, &quot;PyTorch&quot;, &quot;TensorRT&quot;, &quot;Triton&quot;],
++		period: &quot;2026&quot;
++	},
++	{
++		title: &quot;BestCut - AI Model for Recommending Thumbnails Relevant to the Title&quot;,
++		description: &quot;Developed an image-text multimodal embedding and aesthetic scoring model tailored to the language and media in NAVER user posts. The model selects an image that is relevant to a post&#x27;s title and suitable for its thumbnail. The illustration shows example scores.&quot;,
++		icon: [&quot;/images/naver_icon.png&quot;],
++		screenshot: &quot;/images/works/bestcut.png&quot;,
++		skills: [
++			&quot;/images/skills/tensorflow.png&quot;,
++			&quot;/images/skills/torch.png&quot;,
++			&quot;/images/skills/tensorrt.svg&quot;,
++			&quot;/images/skills/triton.svg&quot;
++		],
++		skillLabels: [&quot;TensorFlow&quot;, &quot;PyTorch&quot;, &quot;TensorRT&quot;, &quot;Triton&quot;],
++		period: &quot;2026&quot;
++	},
+     {
+       title: &quot;Road Scene Object Detection&quot;,
+       description: &quot;Developed computer vision model for detecting road scene objects, achieving +95% mAP@50 for more than 40 different categories and reducing manual labeling cost by 90%.&quot;,
+@@ -114,7 +145,7 @@ const Portfolio = () =&gt; {
+         &quot;/images/skills/opencv.png&quot;,
+         &quot;/images/skills/fastapi.png&quot;
+       ],
+-      period: &quot;2025-Present&quot;
++      period: &quot;2025-2026&quot;
+     },
+     {
+       title: &quot;User Feedback Automation Using LangGraph AI Agent&quot;,
+@@ -128,7 +159,22 @@ const Portfolio = () =&gt; {
+         &quot;/images/skills/numpy.png&quot;,
+         &quot;/images/skills/pandas.png&quot;,
+       ],
+-      period: &quot;2025-Present&quot;
++      period: &quot;2025&quot;
++    },
++    {
++      title: &quot;WIFI Fingerprint for Subway Location Estimation&quot;,
++      description: &quot;Created Machine Learning system using different clustring algorithms for locating users in subways using WIFI logs, achieving 98+% accuracy in manual labeled validation dataset.&quot;,
++      icon: [&quot;/images/naver_icon.png&quot;, &quot;/images/navermaps_icon.webp&quot;],
++      screenshot: &quot;/images/works/wps.png&quot;,
++      skills: [
++        &quot;/images/skills/python.png&quot;,
++        &quot;/images/skills/spark.png&quot;,
++        &quot;/images/skills/scikit.png&quot;,
++        &quot;/images/skills/numpy.png&quot;,
++        &quot;/images/skills/pandas.png&quot;,
++        &quot;/images/skills/git.png&quot;
++      ],
++      period: &quot;2024&quot;
+     },
+     {
+       title: &quot;Naver Maps Ferry Route Search&quot;,
+@@ -142,6 +188,21 @@ const Portfolio = () =&gt; {
+         &quot;/images/skills/docker.png&quot;
+       ],
+       period: &quot;2024&quot;
++    },
++    {
++      title: &quot;Real-time Travel Time Estimation&quot;,
++      description: &quot;Developed Naver Map&#x27;s first real-time Deep Learning Model for estimating travel time of car and public transportation routes, improving MAPE by 3%p.&quot;,
++      icon: [&quot;/images/naver_icon.png&quot;, &quot;/images/navermaps_icon.webp&quot;],
++      screenshot: &quot;/images/works/eta.png&quot;,
++      skills: [
++        &quot;/images/skills/python.png&quot;,
++        &quot;/images/skills/tensorflow.png&quot;,
++        &quot;/images/skills/spark.png&quot;,
++        &quot;/images/skills/scikit.png&quot;,
++        &quot;/images/skills/numpy.png&quot;,
++        &quot;/images/skills/pandas.png&quot;
++      ],
++      period: &quot;2020-2023&quot;
+     }
+ 
+   ];
+
+diff --git a/src/components/FeaturedProjects.tsx b/src/components/FeaturedProjects.tsx
+index ccec442..45a08b1 100644
+--- a/src/components/FeaturedProjects.tsx
++++ b/src/components/FeaturedProjects.tsx
+@@ -6,11 +6,20 @@ interface Project {
+   title: string;
+   description: string;
+   icon: string[];
+-  screenshot: string;
++  screenshot?: string;
+   metrics?: { [key: string]: string };
+   skills: string[];
++  skillLabels?: string[];
+   githubUrl?: string;
+   demoUrl?: string;
++  news?: {
++    title: string;
++    publisher: string;
++    date: string;
++    dateLabel: string;
++    url: string;
++    summary: string;
++  }[];
+ }
+ 
+ interface FeaturedProjectsProps {
+@@ -34,8 +43,10 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+         img.src = skillUrl;
+       });
+       // 스크린샷도 사전 로딩
+-      const screenshotImg = new window.Image();
+-      screenshotImg.src = project.screenshot;
++      if (project.screenshot) {
++        const screenshotImg = new window.Image();
++        screenshotImg.src = project.screenshot;
++      }
+     });
+   }, [projects]);
+ 
+@@ -104,15 +115,20 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+               {/* Tech Stack */}
+               &lt;div className=&quot;flex flex-wrap gap-3&quot;&gt;
+                 {projects[currentProject].skills.map((skillUrl, i) =&gt; (
+-                  &lt;div key={i} className=&quot;w-15 h-15 flex-center&quot;&gt;
++                  &lt;div key={i} className={projects[currentProject].skillLabels ? &quot;flex w-20 flex-col items-center gap-2&quot; : &quot;w-15 h-15 flex-center&quot;}&gt;
+                     &lt;Image
+                       src={skillUrl}
+-                      alt={`Skill ${i + 1}`}
++                      alt={projects[currentProject].skillLabels?.[i] ?? `Skill ${i + 1}`}
+                       width={60}
+                       height={60}
+-                      className=&quot;w-full h-full object-contain&quot;
++                      className={projects[currentProject].skillLabels ? &quot;h-[60px] w-[60px] object-contain&quot; : &quot;w-full h-full object-contain&quot;}
+                       loading=&quot;lazy&quot;
+                     /&gt;
++                    {projects[currentProject].skillLabels?.[i] &amp;&amp; (
++                      &lt;span className=&quot;text-center text-xs font-medium text-gray-700&quot;&gt;
++                        {projects[currentProject].skillLabels[i]}
++                      &lt;/span&gt;
++                    )}
+                   &lt;/div&gt;
+                 ))}
+               &lt;/div&gt;
+@@ -121,9 +137,10 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+             {/* Right Side - Screenshot and Description */}
+             &lt;div className=&quot;md:w-2/3&quot;&gt;
+               {/* Screenshot */}
++              {projects[currentProject].screenshot &amp;&amp; (
+               &lt;div className=&quot;mb-8 rounded-lg overflow-hidden border border-gray-200&quot;&gt;
+                 &lt;Image
+-                  src={projects[currentProject].screenshot}
++                  src={projects[currentProject].screenshot!}
+                   alt={`${projects[currentProject].title} screenshot`}
+                   width={800}
+                   height={450}
+@@ -132,10 +149,48 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+                   loading=&quot;eager&quot;
+                 /&gt;
+               &lt;/div&gt;
++              )}
+ 
+               &lt;p className=&quot;text-gray-600 leading-relaxed mb-6&quot;&gt;
+                 {projects[currentProject].description}
+               &lt;/p&gt;
++
++              {projects[currentProject].news?.length ? (
++                &lt;section aria-label=&quot;News coverage&quot; className=&quot;mb-6&quot;&gt;
++                  &lt;h4 className=&quot;text-sm font-semibold uppercase tracking-wider text-teal-700 mb-2&quot;&gt;
++                    In the news
++                  &lt;/h4&gt;
++                  &lt;p className=&quot;text-xs text-gray-500 mb-4&quot;&gt;
++                    Public reporting on the system. Figures reflect the dates cited below.
++                  &lt;/p&gt;
++                  &lt;ul className=&quot;space-y-3&quot;&gt;
++                    {projects[currentProject].news?.map((article) =&gt; (
++                      &lt;li key={article.url}&gt;
++                        &lt;a
++                          href={article.url}
++                          target=&quot;_blank&quot;
++                          rel=&quot;noopener noreferrer&quot;
++                          className=&quot;group block rounded-xl border border-gray-200 p-4 hover:border-teal-400 hover:bg-teal-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 transition-colors&quot;
++                        &gt;
++                          &lt;div className=&quot;flex flex-wrap gap-x-2 text-xs text-gray-500 mb-2&quot;&gt;
++                            &lt;span&gt;{article.publisher}&lt;/span&gt;
++                            &lt;span aria-hidden=&quot;true&quot;&gt;·&lt;/span&gt;
++                            &lt;time dateTime={article.date}&gt;{article.dateLabel}&lt;/time&gt;
++                          &lt;/div&gt;
++                          &lt;div className=&quot;flex items-start justify-between gap-3&quot;&gt;
++                            &lt;span className=&quot;text-sm font-semibold text-gray-800 group-hover:text-teal-700&quot;&gt;
++                              {article.title}
++                            &lt;/span&gt;
++                            &lt;ExternalLink aria-hidden=&quot;true&quot; className=&quot;w-4 h-4 shrink-0 text-teal-600 mt-0.5&quot; /&gt;
++                          &lt;/div&gt;
++                          &lt;p className=&quot;text-sm leading-relaxed text-gray-600 mt-2&quot;&gt;{article.summary}&lt;/p&gt;
++                          &lt;span className=&quot;sr-only&quot;&gt; (opens in a new tab)&lt;/span&gt;
++                        &lt;/a&gt;
++                      &lt;/li&gt;
++                    ))}
++                  &lt;/ul&gt;
++                &lt;/section&gt;
++              ) : null}
+               
+               &lt;div className=&quot;flex space-x-4&quot;&gt;
+                 {projects[currentProject].githubUrl &amp;&amp; (
+@@ -168,6 +223,7 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+         {/* Navigation Buttons */}
+         &lt;button 
+           onClick={prevProject}
++          aria-label=&quot;Previous featured project&quot;
+           disabled={isTransitioning}
+           className=&quot;absolute left-0 top-[200px] transform -translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;
+         &gt;
+@@ -175,6 +231,7 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+         &lt;/button&gt;
+         &lt;button 
+           onClick={nextProject}
++          aria-label=&quot;Next featured project&quot;
+           disabled={isTransitioning}
+           className=&quot;absolute right-0 top-[200px] transform translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;
+         &gt;
+@@ -183,10 +240,12 @@ const FeaturedProjects: React.FC&lt;FeaturedProjectsProps&gt; = ({ projects, skillColo
+ 
+         {/* Dots Indicator */}
+         &lt;div className=&quot;flex justify-center mt-8 space-x-2&quot;&gt;
+-          {projects.map((_, index) =&gt; (
++          {projects.map((project, index) =&gt; (
+             &lt;button
+               key={index}
+               onClick={() =&gt; goToProject(index)}
++              aria-label={`Show ${project.title}`}
++              aria-current={index === currentProject ? &#x27;true&#x27; : undefined}
+               disabled={isTransitioning}
+               className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${
+                 index === currentProject ? &#x27;bg-teal-500&#x27; : &#x27;bg-gray-300&#x27;
+
+diff --git a/src/components/Skills.tsx b/src/components/Skills.tsx
+index c7bb84f..22f5ddb 100644
+--- a/src/components/Skills.tsx
++++ b/src/components/Skills.tsx
+@@ -8,7 +8,11 @@ const Skills: React.FC&lt;SkillsProps&gt; = ({ skillColors }) =&gt; {
+   const skillCategories = [
+     {
+       title: &quot;Machine Learning&quot;,
+-      skills: [&quot;PyTorch&quot;, &quot;TensorFlow&quot;, &quot;Scikit-learn&quot;, &quot;XGBoost&quot;, &quot;Transformers&quot;, &quot;MMDetection&quot;, &quot;Distributed GPU Training&quot;, &quot;PEFT&quot;, &quot;Huggingface&quot;],
++      skills: [
++        &quot;PyTorch&quot;, &quot;TensorFlow&quot;, &quot;Scikit-learn&quot;, &quot;XGBoost&quot;, &quot;Transformers&quot;,
++        &quot;MMDetection&quot;, &quot;Distributed GPU Training&quot;, &quot;PEFT&quot;, &quot;Huggingface&quot;,
++        &quot;Triton&quot;, &quot;TensorRT&quot;, &quot;ONNX&quot;, &quot;VLM fine-tuning (SFT, RLHF)&quot;
++      ],
+       colorClass: &quot;bg-blue-100 text-blue-700&quot;
+     },
+     {
+
+--- /dev/null
++++ b/public/images/skills/tensorrt.svg
+@@ -0,0 +1,6 @@
++&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;120&quot; height=&quot;120&quot; viewBox=&quot;0 0 120 120&quot; role=&quot;img&quot; aria-labelledby=&quot;title&quot;&gt;
++  &lt;title id=&quot;title&quot;&gt;TensorRT&lt;/title&gt;
++  &lt;rect x=&quot;2&quot; y=&quot;2&quot; width=&quot;116&quot; height=&quot;116&quot; rx=&quot;22&quot; fill=&quot;#f0f8e6&quot; stroke=&quot;#76b900&quot; stroke-width=&quot;3&quot;/&gt;
++  &lt;text x=&quot;60&quot; y=&quot;57&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial, Helvetica, sans-serif&quot; font-size=&quot;35&quot; font-weight=&quot;700&quot; fill=&quot;#466d00&quot;&gt;TRT&lt;/text&gt;
++  &lt;text x=&quot;60&quot; y=&quot;87&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial, Helvetica, sans-serif&quot; font-size=&quot;20&quot; font-weight=&quot;700&quot; fill=&quot;#365314&quot;&gt;TensorRT&lt;/text&gt;
++&lt;/svg&gt;
+--- /dev/null
++++ b/public/images/skills/triton.svg
+@@ -0,0 +1,6 @@
++&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;120&quot; height=&quot;120&quot; viewBox=&quot;0 0 120 120&quot; role=&quot;img&quot; aria-labelledby=&quot;title&quot;&gt;
++  &lt;title id=&quot;title&quot;&gt;Triton&lt;/title&gt;
++  &lt;rect x=&quot;2&quot; y=&quot;2&quot; width=&quot;116&quot; height=&quot;116&quot; rx=&quot;22&quot; fill=&quot;#f0f8e6&quot; stroke=&quot;#76b900&quot; stroke-width=&quot;3&quot;/&gt;
++  &lt;text x=&quot;60&quot; y=&quot;57&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial, Helvetica, sans-serif&quot; font-size=&quot;37&quot; font-weight=&quot;700&quot; fill=&quot;#466d00&quot;&gt;T&lt;/text&gt;
++  &lt;text x=&quot;60&quot; y=&quot;87&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial, Helvetica, sans-serif&quot; font-size=&quot;23&quot; font-weight=&quot;700&quot; fill=&quot;#365314&quot;&gt;Triton&lt;/text&gt;
++&lt;/svg&gt;
+</pre></details><p>Report artifacts: current overview, history index, six task reports, and the retained prior-review.html (nine HTML files). Generated report markup is excluded from source totals and recursive diffs. Earlier task reports in the history provide their original before-state and verification evidence.</p></section></main></body></html>

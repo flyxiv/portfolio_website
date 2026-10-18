@@ -8,7 +8,11 @@ const Skills: React.FC<SkillsProps> = ({ skillColors }) => {
   const skillCategories = [
     {
       title: "Machine Learning",
-      skills: ["PyTorch", "TensorFlow", "Scikit-learn", "XGBoost", "Transformers", "MMDetection", "Distributed GPU Training", "PEFT", "Huggingface"],
+      skills: [
+        "PyTorch", "TensorFlow", "Scikit-learn", "XGBoost", "Transformers",
+        "MMDetection", "Distributed GPU Training", "PEFT", "Huggingface",
+        "Triton", "TensorRT", "ONNX", "VLM fine-tuning (SFT, RLHF)"
+      ],
       colorClass: "bg-blue-100 text-blue-700"
     },
     {

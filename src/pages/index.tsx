@@ -74,19 +74,92 @@ const Portfolio = () => {
 
   const workProjects = [
     {
-      title: "Real-time Travel Time Estimation",
-      description: "Developed Naver Map's first real-time Deep Learning Model for estimating travel time of car and public transportation routes, improving MAPE by 3%p.",
+      title: "SPORTER - AI Highlight Generation System for Soccer and Esports",
+      description: "Developed AI models for the SPORTER System: automated realtime clips/highlight generation system for CHZZK's 2026 World Cup, MSI, EWC, Asian Games, collecting 100 million total views.",
+      icon: ["/images/naver_icon.png"],
+      skills: [],
+      period: "2026",
+      news: [
+        {
+          title: "Asian Games AI clips reach 53.2 million views",
+          publisher: "Aju Press",
+          date: "2026-10-06",
+          dateLabel: "Oct 6, 2026",
+          url: "https://www.ajupress.com/view/20261005191270144",
+          summary: "Reports more than 4,600 AI clips and 53.2 million views as of October 4, with SPORTER supporting highlight creation across the Asian Games."
+        },
+        {
+          title: "SPORTER brings AI highlights to the Asian Games",
+          publisher: "Business Watch (Korean)",
+          date: "2026-09-26",
+          dateLabel: "Sep 26, 2026",
+          url: "https://v.daum.net/v/20260926113110332",
+          summary: "Covers SPORTER's use on CHZZK, including AI clips and chapters, alongside multi-source highlights that group footage by athlete, team or topic."
+        },
+        {
+          title: "NAVER develops SPORTER ahead of the World Cup",
+          publisher: "CEOSCOREDAILY (Korean)",
+          date: "2026-03-19",
+          dateLabel: "Mar 19, 2026",
+          url: "https://ceoscoredaily.com/page/view/2026031816463070703",
+          summary: "Early reporting describes development of an AI system to detect key moments during matches and generate highlight clips in real time."
+        }
+      ]
+    },
+	{
+		title: "BestCrop - AI Model For Recommending Best Thumbnail Crop Region For User Images",
+		description: "Developed an AI model that recommends the best region of an image to use as a thumbnail. The model automatically generates thumbnails for millions of NAVER content items, including blogs, news, and clips, every day, and for posts in NAVER's Home Feed.",
+		icon: ["/images/naver_icon.png"],
+		screenshot: "/images/works/bestcrop-comparison.png",
+		skills: [
+			"/images/skills/tensorflow.png",
+			"/images/skills/torch.png",
+			"/images/skills/tensorrt.svg",
+			"/images/skills/triton.svg"
+		],
+		skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"],
+		period: "2026"
+	},
+	{
+		title: "BestCut - AI Model for Recommending Thumbnails Relevant to the Title",
+		description: "Developed an image-text multimodal embedding and aesthetic scoring model tailored to the language and media in NAVER user posts. The model selects an image that is relevant to a post's title and suitable for its thumbnail. The illustration shows example scores.",
+		icon: ["/images/naver_icon.png"],
+		screenshot: "/images/works/bestcut.png",
+		skills: [
+			"/images/skills/tensorflow.png",
+			"/images/skills/torch.png",
+			"/images/skills/tensorrt.svg",
+			"/images/skills/triton.svg"
+		],
+		skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"],
+		period: "2026"
+	},
+    {
+      title: "Road Scene Object Detection",
+      description: "Developed computer vision model for detecting road scene objects, achieving +95% mAP@50 for more than 40 different categories and reducing manual labeling cost by 90%.",
       icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
-      screenshot: "/images/works/eta.png",
+      screenshot: "/images/works/road_detection.png",
       skills: [
         "/images/skills/python.png",
-        "/images/skills/tensorflow.png",
-        "/images/skills/spark.png",
-        "/images/skills/scikit.png",
-        "/images/skills/numpy.png",
-        "/images/skills/pandas.png"
+        "/images/skills/torch.png",
+        "/images/skills/opencv.png",
+        "/images/skills/fastapi.png"
       ],
-      period: "2020-2023"
+      period: "2025-2026"
+    },
+    {
+      title: "User Feedback Automation Using LangGraph AI Agent",
+      description: "Created LLM agent for automating customer feedback, using self-made framework similar to LangGraph and RAG support from LangChain. Automated 87% of customer feedback which was previously processed by engineers manually.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/qabot.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/langchain.png",
+        "/images/skills/langgraph.png",
+        "/images/skills/numpy.png",
+        "/images/skills/pandas.png",
+      ],
+      period: "2025"
     },
     {
       title: "WIFI Fingerprint for Subway Location Estimation",
@@ -104,33 +177,6 @@ const Portfolio = () => {
       period: "2024"
     },
     {
-      title: "Road Scene Object Detection",
-      description: "Developed computer vision model for detecting road scene objects, achieving +95% mAP@50 for more than 40 different categories and reducing manual labeling cost by 90%.",
-      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
-      screenshot: "/images/works/road_detection.png",
-      skills: [
-        "/images/skills/python.png",
-        "/images/skills/torch.png",
-        "/images/skills/opencv.png",
-        "/images/skills/fastapi.png"
-      ],
-      period: "2025-Present"
-    },
-    {
-      title: "User Feedback Automation Using LangGraph AI Agent",
-      description: "Created LLM agent for automating customer feedback, using self-made framework similar to LangGraph and RAG support from LangChain. Automated 87% of customer feedback which was previously processed by engineers manually.",
-      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
-      screenshot: "/images/works/qabot.png",
-      skills: [
-        "/images/skills/python.png",
-        "/images/skills/langchain.png",
-        "/images/skills/langgraph.png",
-        "/images/skills/numpy.png",
-        "/images/skills/pandas.png",
-      ],
-      period: "2025-Present"
-    },
-    {
       title: "Naver Maps Ferry Route Search",
       description: "Spearheaded development of Naver Maps' ferry route search feature, providing users with real-time ferry schedules and route information.",
       icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
@@ -142,6 +188,21 @@ const Portfolio = () => {
         "/images/skills/docker.png"
       ],
       period: "2024"
+    },
+    {
+      title: "Real-time Travel Time Estimation",
+      description: "Developed Naver Map's first real-time Deep Learning Model for estimating travel time of car and public transportation routes, improving MAPE by 3%p.",
+      icon: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
+      screenshot: "/images/works/eta.png",
+      skills: [
+        "/images/skills/python.png",
+        "/images/skills/tensorflow.png",
+        "/images/skills/spark.png",
+        "/images/skills/scikit.png",
+        "/images/skills/numpy.png",
+        "/images/skills/pandas.png"
+      ],
+      period: "2020-2023"
     }
 
   ];

@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BestCrop and BestCut skills review</title><style>body{font:16px/1.6 system-ui;color:#172b3a;background:#f4f7fa;margin:0}main{max-width:1100px;margin:auto;padding:32px}section,details{background:white;border:1px solid #cbd5e1;border-radius:12px;padding:24px;margin:20px 0}a{color:#075a9e}svg{width:100%;height:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 monospace}summary{cursor:pointer;font-weight:600}nav{display:flex;gap:24px}.add{color:#166534}.del{color:#991b1b}</style><main><h1>Skills on BestCrop and BestCut</h1><nav><a href="../../index.html">Architecture overview</a><a href="../index.html">Change history</a><a href="https://github.com/flyxiv/portfolio_website/issues/5">Issue #5</a></nav><p>Updated 2026-10-18T23:33:42 (Asia/Seoul). Repository/worktree/application: E:\portfolio_website; flyxiv/portfolio_website; branch main. Baseline/final HEAD 1f9713aa807bff2294b8c727d2fed7139ac4d186; final state uncommitted local edits, no task commits. Dirty baseline snapshots, manifest and initial status saved at .git/codex-baselines/20261018-233056-bestcrop-bestcut-skills. Diffs compare the captured working tree, not HEAD. Prior portfolio skill/diagram/order changes and reports preserved.</p><section><h2>Outcome and scope</h2><p>The former combined entry already contained four icon paths, but BestCut had no separate card. BestCrop and BestCut now have distinct entries and correct existing images, and both explicitly display TensorFlow, PyTorch, TensorRT and Triton. A reusable optional skillLabels array enables captions and descriptive alt text on those cards. No new images or dependencies.</p><p>Both entries use the existing 2026 period from the combined entry. Exact relative dates are unknown; existing BestCrop remains first and BestCut follows. Other project records retain their previous relative order and content. This is the planned scope, with no implementation deviation.</p></section><section><h2>As-is</h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 160" role="img" aria-label="Project skills flow"><rect x="10" y="20" width="330" height="100" rx="12" fill="#e8edf4"/><text x="25" y="78" font-family="Arial" font-size="19">One combined BestCrop entry</text><rect x="370" y="20" width="330" height="100" rx="12" fill="#e8edf4"/><text x="385" y="78" font-family="Arial" font-size="19">4 icons without names</text><rect x="730" y="20" width="330" height="100" rx="12" fill="#e8edf4"/><text x="745" y="78" font-family="Arial" font-size="19">FeaturedProjects: 6 cards</text><path d="M340 70H370 M700 70H730" stroke="#526478" stroke-width="3"/></svg><p>One BestCrop entry, BestCut image and mixed description; four icon-only skills; no separate BestCut.</p></section><section><h2>To-be (implemented)</h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 160" role="img" aria-label="Project skills flow"><rect x="10" y="20" width="330" height="100" rx="12" fill="#d7f4e7"/><text x="25" y="78" font-family="Arial" font-size="19">BestCrop + BestCut entries</text><rect x="370" y="20" width="330" height="100" rx="12" fill="#d7f4e7"/><text x="385" y="78" font-family="Arial" font-size="19">4 icons + visible skill names</text><rect x="730" y="20" width="330" height="100" rx="12" fill="#d7f4e7"/><text x="745" y="78" font-family="Arial" font-size="19">FeaturedProjects: 7 cards</text><path d="M340 70H370 M700 70H730" stroke="#526478" stroke-width="3"/></svg><p>BestCrop → bestcrop-comparison.png; BestCut → bestcut.png. Both → four skills + four skillLabels → captions and accessible icon alt text. Gray = baseline/unchanged; green = added or changed; no removed components.</p></section><section><h2>Complete change inventory</h2><p>Two modified source text files; total +25 / −4. No source additions, deletions, renames or binary changes.</p><ul><li><strong>src/pages/index.tsx</strong>: Separate BestCrop crop comparison and BestCut thumbnail selection; retain four skill paths on both and supply four matching skillLabels.<br>+16 / −1<div style="background:#078464;height:12px;width:128px"></div></li><li><strong>src/components/FeaturedProjects.tsx</strong>: Optional skillLabels property renders visible captions and meaningful icon alt text, with explicit 60px icon size for labeled cards. Unlabeled cards keep existing appearance.<br>+9 / −3<div style="background:#078464;height:12px;width:72px"></div></li></ul><h3>Review artifacts (excluded from source totals/recursive diffs)</h3><ul><li>Modified docs/codebase/index.html: current two-project architecture and skill-caption flow.</li><li>Modified docs/codebase/changes/index.html: browsable task history.</li><li>Added docs/codebase/changes/20261018-233056-bestcrop-bestcut-skills/index.html: this self-contained review and complete task diffs.</li></ul><p>Ignored build outputs in .next and temporary verification scripts/markup under OS temp are not repository source changes. Baselines stay under .git.</p></section><section><h2>Inspectable code changes</h2><label>Find file <input id="filter" type="search" placeholder="File path"></label><details class="diff"><summary>src/pages/index.tsx</summary><pre><span class="del">--- before/src/pages/index.tsx
+</span><span class="add">+++ after/src/pages/index.tsx
+</span><span class="">@@ -75,7 +75,21 @@
+</span><span class="">   const workProjects = [
+</span><span class=""> 	{
+</span><span class=""> 		title: &quot;BestCrop - AI Model For Recommending Best Thumbnail Crop Region For User Images&quot;,
+</span><span class="del">-		description: &quot;Developed and deployed Computer Vision model that recommends the best region of a given image to use as a thumbnail. The illustration shows thumbnail selection by comparing a blog title embedding with five image embeddings using cosine similarity; the highest-scoring image becomes the thumbnail. Scores are illustrative.&quot;,
+</span><span class="add">+		description: &quot;Developed and deployed Computer Vision model that recommends the best region of a given image to use as a thumbnail. The illustration compares a centered square crop with a caption-preserving crop.&quot;,
+</span><span class="add">+		icon: [&quot;/images/naver_icon.png&quot;],
+</span><span class="add">+		screenshot: &quot;/images/works/bestcrop-comparison.png&quot;,
+</span><span class="add">+		skills: [
+</span><span class="add">+			&quot;/images/skills/tensorflow.png&quot;,
+</span><span class="add">+			&quot;/images/skills/torch.png&quot;,
+</span><span class="add">+			&quot;/images/skills/tensorrt.svg&quot;,
+</span><span class="add">+			&quot;/images/skills/triton.svg&quot;
+</span><span class="add">+		],
+</span><span class="add">+		skillLabels: [&quot;TensorFlow&quot;, &quot;PyTorch&quot;, &quot;TensorRT&quot;, &quot;Triton&quot;],
+</span><span class="add">+		period: &quot;2026&quot;
+</span><span class="add">+	},
+</span><span class="add">+	{
+</span><span class="add">+		title: &quot;BestCut - AI Model For Selecting Blog Thumbnails&quot;,
+</span><span class="add">+		description: &quot;Recommends a thumbnail by comparing a blog title embedding with candidate image embeddings using cosine similarity. The illustration shows five images from one post and selects the highest-scoring image. Scores are illustrative.&quot;,
+</span><span class=""> 		icon: [&quot;/images/naver_icon.png&quot;],
+</span><span class=""> 		screenshot: &quot;/images/works/bestcut.png&quot;,
+</span><span class=""> 		skills: [
+</span><span class="">@@ -84,6 +98,7 @@
+</span><span class=""> 			&quot;/images/skills/tensorrt.svg&quot;,
+</span><span class=""> 			&quot;/images/skills/triton.svg&quot;
+</span><span class=""> 		],
+</span><span class="add">+		skillLabels: [&quot;TensorFlow&quot;, &quot;PyTorch&quot;, &quot;TensorRT&quot;, &quot;Triton&quot;],
+</span><span class=""> 		period: &quot;2026&quot;
+</span><span class=""> 	},
+</span><span class="">     {
+</span></pre></details><details class="diff"><summary>src/components/FeaturedProjects.tsx</summary><pre><span class="del">--- before/src/components/FeaturedProjects.tsx
+</span><span class="add">+++ after/src/components/FeaturedProjects.tsx
+</span><span class="">@@ -9,6 +9,7 @@
+</span><span class="">   screenshot: string;
+</span><span class="">   metrics?: { [key: string]: string };
+</span><span class="">   skills: string[];
+</span><span class="add">+  skillLabels?: string[];
+</span><span class="">   githubUrl?: string;
+</span><span class="">   demoUrl?: string;
+</span><span class=""> }
+</span><span class="">@@ -104,15 +105,20 @@
+</span><span class="">               {/* Tech Stack */}
+</span><span class="">               &lt;div className=&quot;flex flex-wrap gap-3&quot;&gt;
+</span><span class="">                 {projects[currentProject].skills.map((skillUrl, i) =&gt; (
+</span><span class="del">-                  &lt;div key={i} className=&quot;w-15 h-15 flex-center&quot;&gt;
+</span><span class="add">+                  &lt;div key={i} className={projects[currentProject].skillLabels ? &quot;flex w-20 flex-col items-center gap-2&quot; : &quot;w-15 h-15 flex-center&quot;}&gt;
+</span><span class="">                     &lt;Image
+</span><span class="">                       src={skillUrl}
+</span><span class="del">-                      alt={`Skill ${i + 1}`}
+</span><span class="add">+                      alt={projects[currentProject].skillLabels?.[i] ?? `Skill ${i + 1}`}
+</span><span class="">                       width={60}
+</span><span class="">                       height={60}
+</span><span class="del">-                      className=&quot;w-full h-full object-contain&quot;
+</span><span class="add">+                      className={projects[currentProject].skillLabels ? &quot;h-[60px] w-[60px] object-contain&quot; : &quot;w-full h-full object-contain&quot;}
+</span><span class="">                       loading=&quot;lazy&quot;
+</span><span class="">                     /&gt;
+</span><span class="add">+                    {projects[currentProject].skillLabels?.[i] &amp;&amp; (
+</span><span class="add">+                      &lt;span className=&quot;text-center text-xs font-medium text-gray-700&quot;&gt;
+</span><span class="add">+                        {projects[currentProject].skillLabels[i]}
+</span><span class="add">+                      &lt;/span&gt;
+</span><span class="add">+                    )}
+</span><span class="">                   &lt;/div&gt;
+</span><span class="">                 ))}
+</span><span class="">               &lt;/div&gt;
+</span></pre></details></section><section><h2>Verification and limits</h2><pre>PASS: npm run build completed type/lint validation, optimized compilation, static generation 3/3 and build traces.
+PASS: actual FeaturedProjects component server-rendered separately with BestCrop and BestCut as selected project. Both output TensorFlow, PyTorch, TensorRT and Triton captions, matching alt attributes and all four existing icons. Each card uses its correct existing screenshot.
+PASS: production initial HTML displays BestCrop with four named skills and crop-comparison image.
+PASS: TypeScript AST-based extraction confirms seven project records, with all five unrelated project records byte-equivalent as serialized data. Latest-first year order retained; both 2026 entries remain ahead of 2025-2026.
+PASS: all pre-existing files outside the two changed source files and current overview/history preserved by SHA-256. All screenshot/icon paths resolve. No binary files changed.
+PASS: git diff --check, local HTML links and embedded SVG structure checks.
+LIMIT: browser inventory returned no apps or browsers. HTML reviews and live carousel were not browser-rendered or interactively verified. Server rendering verifies generated markup, not pixel layout.
+WARNINGS: existing stale Browserslist/caniuse-lite warning during build. Standalone React render emitted a Next Image fetchPriority DOM warning; rendering checks passed. Dependencies unchanged.
+LOCAL ONLY: no commits, push or deployment; another running checkout was not identified.</pre></section></main><script>document.getElementById("filter").addEventListener("input",function(){for(const d of document.querySelectorAll("details.diff"))d.hidden=!d.querySelector("summary").textContent.toLowerCase().includes(this.value.toLowerCase())})</script></html>
