@@ -10,6 +10,24 @@ import Footer from '../components/Footer';
 const Portfolio = () => {
   const experiences = [
     {
+      title: "ML Engineer",
+      company: "NAVER Media AI",
+      period: "AUG 2025 - PRESENT",
+      logo: ["/images/naver_icon.png"],
+      description: [
+        "Developed BestCrop, a computer vision system that identifies the best region of an image for thumbnail cropping.",
+        "Developed BestCut, combining CLIP-style multimodal embeddings with aesthetic scoring to select visually appealing thumbnails that match a post's content.",
+        "Developed AI models for SPORTER that provide contextual signals for automated clip and highlight generation across the 2026 World Cup, MSI, EWC, Asian Games, and LoL Worlds."
+      ],
+      skills: [
+        "/images/skills/tensorflow.png",
+        "/images/skills/torch.png",
+        "/images/skills/tensorrt.svg",
+        "/images/skills/triton.svg"
+      ],
+      skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"]
+    },
+    {
       title: "Data Scientist",
       company: "Naver Maps",
       period: "AUG 2020 - DEC 2023",
@@ -52,7 +70,7 @@ const Portfolio = () => {
     {
       title: "ML Engineer",
       company: "Naver Maps(Car Navigation)",
-      period: "JAN 2025 - PRESENT",
+      period: "JAN 2025 - AUG 2025",
       logo: ["/images/naver_icon.png", "/images/navermaps_icon.webp"],
       description: [
         "Developed computer vision model for detecting road scene objects", 

@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NAVER Media AI experience review</title><style>body{font:16px/1.6 system-ui;color:#193247;background:#f3f6fa;margin:0}main{max-width:1100px;margin:auto;padding:32px}section,details{background:white;padding:22px;border:1px solid #cbd5e1;border-radius:12px;margin:18px 0}a{color:#075a9e}svg{width:100%;height:auto}text{font:16px system-ui;fill:#193247}pre{font:13px/1.6 monospace;white-space:pre-wrap;overflow-wrap:anywhere}summary{cursor:pointer;font-weight:650}table{border-collapse:collapse;width:100%}td,th{padding:10px;text-align:left;border-bottom:1px solid #ccd5dd}.add{color:#126234}.del{color:#9f2424}.bar{height:12px;background:#087f5b;display:inline-block}nav{display:flex;gap:24px;flex-wrap:wrap}input{font:inherit;padding:8px;width:90%}</style></head><body><main><h1>NAVER Media AI experience</h1><nav><a href="../../index.html">Architecture overview</a><a href="../index.html">Change history</a><a href="https://github.com/flyxiv/portfolio_website/issues/8">Issue #8</a></nav><p>E:\portfolio_website · main · flyxiv/portfolio_website<br>Baseline d69979be8c96b8cc111cb03c70f6e1aba936a830 (clean). Updated 2026-10-19T04:34:01.</p><section><h2>Outcome and scope</h2><p>Add ML Engineer at NAVER Media AI, AUG 2025 - PRESENT, with user-supplied BestCrop, BestCut and SPORTER contributions paraphrased for the portfolio. Set NAVER Maps ML Engineer end date to AUG 2025. Both dates were explicitly supplied by the user. New role uses the four established BestCrop/BestCut technologies, without inventing a SPORTER-specific stack.</p><pre>﻿IMPLEMENTED AND VERIFIED LOCALLY; publishing through the established main-push workflow.
+Added ML Engineer / NAVER Media AI first in the experience carousel, AUG 2025 - PRESENT. Updated NAVER Maps (Car Navigation) ML Engineer to JAN 2025 - AUG 2025, exactly as requested.
+Paraphrased BestCrop cropping, BestCut CLIP-style multimodal/aesthetic thumbnail selection, and SPORTER contextual-model contributions. All events and claims come from user input.
+Skills: TensorFlow, PyTorch, TensorRT and Triton, using the established BestCrop/BestCut stack; four visible captions and meaningful image alt text. Existing experience cards retain their original icon layout and data except the requested Maps end date.
+PASS: npm run build (production compilation, TypeScript validation, static generation).
+PASS: all four experience cards server-rendered; exact dates, three bullets, four skill captions and valid image paths, one selected navigation state. Generated homepage HTML includes Media AI and CLIP-style wording.
+PASS: all workProjects, sideProjects and skillColors values unchanged; previous roles unchanged except Maps end date; 75 unrelated tracked files preserved by SHA-256.
+PASS: source whitespace checks. HTML parsing, inline SVG and local navigation checked; full two-file diff included relative to stable clean baseline d69979b.
+LIMIT: browser inventory returned no apps or browsers; no visual/interactive browser verification. Existing Browserslist warning does not fail the build.
+Application source revision: the commit containing this report; exact commit, successful Actions run and deployed HTTP verification recorded in issue #8 on completion. Deployment uses /mnt/data/portfolio/current; original VM recovery checkout is unchanged.
+</pre></section><section><h2>As-is (verified)</h2><svg viewBox="0 0 1050 155" role="img" aria-label="Experience data and rendering flow"><rect x="10" y="15" width="325" height="115" rx="12" fill="#e8eef5" stroke="#63788b"/><text x="24" y="47"><tspan x="24" dy="0">Portfolio.experiences</tspan><tspan x="24" dy="28">3 roles; Maps ML PRESENT</tspan></text><path d="M335 72h25l-7 -5m7 5l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="360" y="15" width="325" height="115" rx="12" fill="#e8eef5" stroke="#63788b"/><text x="374" y="47"><tspan x="374" dy="0">Experience(current=0)</tspan><tspan x="374" dy="28">Data Scientist shown first</tspan></text><path d="M685 72h25l-7 -5m7 5l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="710" y="15" width="325" height="115" rx="12" fill="#e8eef5" stroke="#63788b"/><text x="724" y="47"><tspan x="724" dy="0">Skill image array</tspan><tspan x="724" dy="28">Icons; generic alt text</tspan></text></svg><h2>To-be (implemented)</h2><svg viewBox="0 0 1050 155" role="img" aria-label="Experience data and rendering flow"><rect x="10" y="15" width="325" height="115" rx="12" fill="#fff0bf" stroke="#63788b"/><text x="24" y="47"><tspan x="24" dy="0">Portfolio.experiences</tspan><tspan x="24" dy="28">4 roles; Maps ML AUG 2025</tspan></text><path d="M335 72h25l-7 -5m7 5l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="360" y="15" width="325" height="115" rx="12" fill="#d7f4e7" stroke="#63788b"/><text x="374" y="47"><tspan x="374" dy="0">Media AI shown first</tspan><tspan x="374" dy="28">AUG 2025 - PRESENT</tspan></text><path d="M685 72h25l-7 -5m7 5l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="710" y="15" width="325" height="115" rx="12" fill="#fff0bf" stroke="#63788b"/><text x="724" y="47"><tspan x="724" dy="0">Optional skillLabels</tspan><tspan x="724" dy="28">4 named icons on new role</tspan></text></svg><p>Legend: gray unchanged, green added, amber changed, red removed (none). Verified flow: Portfolio owns experiences → Experience reads selected role → optional labels render beside icons → navigation updates local currentExperience. Existing three roles retain their order after the new first entry. New dates replace the Maps PRESENT value only.</p></section><section><h2>Complete change inventory</h2><table><tr><th>File / subsystem</th><th>Purpose</th><th>Size</th></tr><tr><td>src/pages/index.tsx</td><td>New first role and three polished bullets; explicit start/end dates and four established skills</td><td>+19/-1<br><span class="bar" style="width:20px"></span></td></tr><tr><td>src/components/Experience.tsx</td><td>Optional visible skill captions/alt text and accessible carousel selection labels</td><td>+14/-4<br><span class="bar" style="width:18px"></span></td></tr></table><p>Application changes: two modified text files, +33/-5. No binary assets, dependencies, configuration or runtime deployment scripts changed. All task commits and uncommitted edits are represented by comparison to the captured task baseline.</p></section><section><h2>Inspectable complete task diffs</h2><label>Filter changed files <input id="filter" placeholder="File path"></label><details class="diff"><summary>src/pages/index.tsx</summary><pre><span class="del">--- baseline/src/pages/index.tsx</span>
+<span class="add">+++ working-tree/src/pages/index.tsx</span>
+<span class="">@@ -10,6 +10,24 @@</span>
+<span class=""> const Portfolio = () =&gt; {</span>
+<span class="">   const experiences = [</span>
+<span class="">     {</span>
+<span class="add">+      title: &quot;ML Engineer&quot;,</span>
+<span class="add">+      company: &quot;NAVER Media AI&quot;,</span>
+<span class="add">+      period: &quot;AUG 2025 - PRESENT&quot;,</span>
+<span class="add">+      logo: [&quot;/images/naver_icon.png&quot;],</span>
+<span class="add">+      description: [</span>
+<span class="add">+        &quot;Developed BestCrop, a computer vision system that identifies the best region of an image for thumbnail cropping.&quot;,</span>
+<span class="add">+        &quot;Developed BestCut, combining CLIP-style multimodal embeddings with aesthetic scoring to select visually appealing thumbnails that match a post&#x27;s content.&quot;,</span>
+<span class="add">+        &quot;Developed AI models for SPORTER that provide contextual signals for automated clip and highlight generation across the 2026 World Cup, MSI, EWC, Asian Games, and LoL Worlds.&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      skills: [</span>
+<span class="add">+        &quot;/images/skills/tensorflow.png&quot;,</span>
+<span class="add">+        &quot;/images/skills/torch.png&quot;,</span>
+<span class="add">+        &quot;/images/skills/tensorrt.svg&quot;,</span>
+<span class="add">+        &quot;/images/skills/triton.svg&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      skillLabels: [&quot;TensorFlow&quot;, &quot;PyTorch&quot;, &quot;TensorRT&quot;, &quot;Triton&quot;]</span>
+<span class="add">+    },</span>
+<span class="add">+    {</span>
+<span class="">       title: &quot;Data Scientist&quot;,</span>
+<span class="">       company: &quot;Naver Maps&quot;,</span>
+<span class="">       period: &quot;AUG 2020 - DEC 2023&quot;,</span>
+<span class="">@@ -52,7 +70,7 @@</span>
+<span class="">     {</span>
+<span class="">       title: &quot;ML Engineer&quot;,</span>
+<span class="">       company: &quot;Naver Maps(Car Navigation)&quot;,</span>
+<span class="del">-      period: &quot;JAN 2025 - PRESENT&quot;,</span>
+<span class="add">+      period: &quot;JAN 2025 - AUG 2025&quot;,</span>
+<span class="">       logo: [&quot;/images/naver_icon.png&quot;, &quot;/images/navermaps_icon.webp&quot;],</span>
+<span class="">       description: [</span>
+<span class="">         &quot;Developed computer vision model for detecting road scene objects&quot;, </span></pre></details><details class="diff"><summary>src/components/Experience.tsx</summary><pre><span class="del">--- baseline/src/components/Experience.tsx</span>
+<span class="add">+++ working-tree/src/components/Experience.tsx</span>
+<span class="">@@ -9,6 +9,7 @@</span>
+<span class="">   logo: string[];</span>
+<span class="">   description: string[];</span>
+<span class="">   skills: string[];</span>
+<span class="add">+  skillLabels?: string[];</span>
+<span class=""> }</span>
+<span class=""> </span>
+<span class=""> interface ExperienceProps {</span>
+<span class="">@@ -90,15 +91,20 @@</span>
+<span class="">               </span>
+<span class="">               &lt;div className=&quot;flex flex-wrap gap-3&quot;&gt;</span>
+<span class="">                 {experiences[currentExperience].skills.map((skillUrl, i) =&gt; (</span>
+<span class="del">-                  &lt;div key={i} className=&quot;w-15 h-15 flex-center&quot;&gt;</span>
+<span class="add">+                  &lt;div key={i} className={experiences[currentExperience].skillLabels ? &quot;flex w-20 flex-col items-center gap-2&quot; : &quot;w-15 h-15 flex-center&quot;}&gt;</span>
+<span class="">                     &lt;Image</span>
+<span class="">                       src={skillUrl}</span>
+<span class="del">-                      alt={`Skill ${i + 1}`}</span>
+<span class="add">+                      alt={experiences[currentExperience].skillLabels?.[i] ?? `Skill ${i + 1}`}</span>
+<span class="">                       width={60}</span>
+<span class="">                       height={60}</span>
+<span class="del">-                      className=&quot;w-full h-full object-contain&quot;</span>
+<span class="add">+                      className={experiences[currentExperience].skillLabels ? &quot;h-[60px] w-[60px] object-contain&quot; : &quot;w-full h-full object-contain&quot;}</span>
+<span class="">                       loading=&quot;lazy&quot;</span>
+<span class="">                     /&gt;</span>
+<span class="add">+                    {experiences[currentExperience].skillLabels?.[i] &amp;&amp; (</span>
+<span class="add">+                      &lt;span className=&quot;text-center text-xs font-medium text-gray-700&quot;&gt;</span>
+<span class="add">+                        {experiences[currentExperience].skillLabels[i]}</span>
+<span class="add">+                      &lt;/span&gt;</span>
+<span class="add">+                    )}</span>
+<span class="">                   &lt;/div&gt;</span>
+<span class="">                 ))}</span>
+<span class="">               &lt;/div&gt;</span>
+<span class="">@@ -119,6 +125,7 @@</span>
+<span class=""> </span>
+<span class="">         &lt;button </span>
+<span class="">           onClick={prevExperience}</span>
+<span class="add">+          aria-label=&quot;Previous experience&quot;</span>
+<span class="">           disabled={isTransitioning}</span>
+<span class="">           className=&quot;btn-icon absolute left-0 top-[200px] transform -translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;</span>
+<span class="">         &gt;</span>
+<span class="">@@ -126,6 +133,7 @@</span>
+<span class="">         &lt;/button&gt;</span>
+<span class="">         &lt;button </span>
+<span class="">           onClick={nextExperience}</span>
+<span class="add">+          aria-label=&quot;Next experience&quot;</span>
+<span class="">           disabled={isTransitioning}</span>
+<span class="">           className=&quot;btn-icon absolute right-0 top-[200px] transform translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed&quot;</span>
+<span class="">         &gt;</span>
+<span class="">@@ -133,10 +141,12 @@</span>
+<span class="">         &lt;/button&gt;</span>
+<span class=""> </span>
+<span class="">         &lt;div className=&quot;flex-center mt-8 space-x-2&quot;&gt;</span>
+<span class="del">-          {experiences.map((_, index) =&gt; (</span>
+<span class="add">+          {experiences.map((experience, index) =&gt; (</span>
+<span class="">             &lt;button</span>
+<span class="">               key={index}</span>
+<span class="">               onClick={() =&gt; goToExperience(index)}</span>
+<span class="add">+              aria-label={`Show ${experience.title} at ${experience.company}`}</span>
+<span class="add">+              aria-current={index === currentExperience ? &#x27;true&#x27; : undefined}</span>
+<span class="">               disabled={isTransitioning}</span>
+<span class="">               className={`nav-dot transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${</span>
+<span class="">                 index === currentExperience ? &#x27;nav-dot-active&#x27; : &#x27;nav-dot-inactive&#x27;</span></pre></details></section><section><h2>Baseline and ownership</h2><p>Stable source copies and SHA-256 manifest captured in .git/task-reviews/20261019-media-ai before edits. No pre-existing local edits. Existing project records, skills/assets and prior reports are preserved. At task start the public revision and main both pointed to d69979b. Live runtime uses /mnt/data/portfolio/current; the original /home/ns090200/portfolio_website checkout is a retained recovery copy and is not edited.</p></section><section><h2>Verification and limits</h2><p>Actual results appear in the status above. Planned checks: production build, server rendering of all four roles, specific dates/bullets/skill labels, existing data and asset preservation, HTML parsing/SVG/local navigation, and deployed HTTP content. Browser inventory will be checked; structural checks alone do not count as visual verification. Existing main-push workflow builds, health-checks and activates a standalone release with rollback.</p></section><section><h2>Report artifacts and navigation</h2><ul><li>docs/codebase/index.html — current experience flow added to verified overview.</li><li>docs/codebase/changes/index.html — task link appended, earlier history retained.</li><li>docs/codebase/changes/20261019-043022-media-ai/index.html — baseline, diagrams, complete diffs, verification and deployment state.</li></ul><p>Generated HTML markup excluded from source totals and recursive diffs. Source and runtime relationships are verified from actual files; contributions are user-provided rather than independently researched.</p></section><script>document.getElementById("filter").addEventListener("input",function(){for(const d of document.querySelectorAll(".diff"))d.hidden=!d.querySelector("summary").textContent.toLowerCase().includes(this.value.toLowerCase())})</script></main></body></html>

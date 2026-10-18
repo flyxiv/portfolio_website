@@ -9,6 +9,7 @@ interface Experience {
   logo: string[];
   description: string[];
   skills: string[];
+  skillLabels?: string[];
 }
 
 interface ExperienceProps {
@@ -90,15 +91,20 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
               
               <div className="flex flex-wrap gap-3">
                 {experiences[currentExperience].skills.map((skillUrl, i) => (
-                  <div key={i} className="w-15 h-15 flex-center">
+                  <div key={i} className={experiences[currentExperience].skillLabels ? "flex w-20 flex-col items-center gap-2" : "w-15 h-15 flex-center"}>
                     <Image
                       src={skillUrl}
-                      alt={`Skill ${i + 1}`}
+                      alt={experiences[currentExperience].skillLabels?.[i] ?? `Skill ${i + 1}`}
                       width={60}
                       height={60}
-                      className="w-full h-full object-contain"
+                      className={experiences[currentExperience].skillLabels ? "h-[60px] w-[60px] object-contain" : "w-full h-full object-contain"}
                       loading="lazy"
                     />
+                    {experiences[currentExperience].skillLabels?.[i] && (
+                      <span className="text-center text-xs font-medium text-gray-700">
+                        {experiences[currentExperience].skillLabels[i]}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -119,6 +125,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
 
         <button 
           onClick={prevExperience}
+          aria-label="Previous experience"
           disabled={isTransitioning}
           className="btn-icon absolute left-0 top-[200px] transform -translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -126,6 +133,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
         </button>
         <button 
           onClick={nextExperience}
+          aria-label="Next experience"
           disabled={isTransitioning}
           className="btn-icon absolute right-0 top-[200px] transform translate-x-4 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -133,10 +141,12 @@ const Experience: React.FC<ExperienceProps> = ({ experiences, skillColors }) => 
         </button>
 
         <div className="flex-center mt-8 space-x-2">
-          {experiences.map((_, index) => (
+          {experiences.map((experience, index) => (
             <button
               key={index}
               onClick={() => goToExperience(index)}
+              aria-label={`Show ${experience.title} at ${experience.company}`}
+              aria-current={index === currentExperience ? 'true' : undefined}
               disabled={isTransitioning}
               className={`nav-dot transition-all duration-200 hover:scale-125 disabled:cursor-not-allowed ${
                 index === currentExperience ? 'nav-dot-active' : 'nav-dot-inactive'
