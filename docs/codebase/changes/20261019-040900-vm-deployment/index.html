@@ -1,0 +1,1095 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Automatic VM deployment review</title><style>body{font:16px/1.6 system-ui;color:#173044;background:#f3f6fa;margin:0}main{max-width:1150px;margin:auto;padding:32px}section,details{background:white;border:1px solid #cbd5e1;padding:20px;border-radius:12px;margin:18px 0}a{color:#075a9e}svg{width:100%;height:auto}text{font:16px system-ui;fill:#173044}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 monospace}summary{cursor:pointer;font-weight:650}input{padding:10px;font:inherit;width:90%}.add{color:#176332}.del{color:#9b2525}table{border-collapse:collapse;width:100%}td,th{padding:10px;border-bottom:1px solid #ccd5dd;text-align:left}.bar{height:12px;background:#087f5b;display:inline-block}nav{display:flex;flex-wrap:wrap;gap:25px}</style></head><body><main><h1>Automatic VM deployment</h1><nav><a href="../../index.html">Architecture overview</a><a href="../index.html">Change history</a><a href="https://github.com/flyxiv/portfolio_website/issues/7">Issue #7</a></nav><p>E:\portfolio_website · main · flyxiv/portfolio_website<br>Task baseline 280153ee67746252656369afce5c5bdc310c263e, clean worktree. Updated 2026-10-19T04:17:44.</p><section><h2>Outcome and scope</h2><p>Automatically republish the portfolio on main pushes to the existing Google VM. Build away from the nearly full VM root disk; retain recoverable releases on its attached data disk. Existing blog is outside scope.</p><pre>﻿Implemented locally and provisioned on VM; awaiting first real GitHub Actions run.
+Local baseline 280153e; original VM checkout 1f9713a retained unchanged.
+PASS: local Next.js standalone production build.
+PASS: six archive tests on Debian VM: valid archive, parent/absolute traversal, unsafe symlink, special-device and incomplete-release cases.
+PASS: dedicated SSH key rejects shell commands; main-only GitHub production environment and secret/variable configuration.
+PASS: systemd service starts copied legacy runtime on data disk; VM sudo access limited to restarting this one service.
+PASS: deliberate activation failure (preview succeeds, production fails) automatically restored previous release and HTTP health, while public traffic still used the untouched legacy process.
+PASS: Nginx syntax test and portfolio-only upstream cutover to 127.0.0.1:3001. Immediate request during reload saw 404; follow-up verification returned HTTP 200 and matching legacy revision from both public hostnames. Blog configuration unchanged.
+Server config backup: /mnt/data/portfolio-admin-backup/junyeopnaportfolio.before-port3001.conf. Original checkout and old process retained for recovery.
+Adjustment: older VM Python lacks tarfile data_filter; implemented explicit checked extraction instead and tested it. No VM package upgrades required.
+LIMIT: browser surfaces unavailable, so no visual/interactive browser verification. Existing dependency audit findings are outside this deployment change. Root disk remains nearly full; build and release storage avoid it.
+Next: commit and push workflow; verify real Actions run and public revision/image responses.
+</pre></section><section><h2>As-is (verified)</h2><svg viewBox="0 0 1100 165" role="img" aria-label="Deployment flow"><rect x="5" y="15" width="250" height="130" rx="12" fill="#e8eef5" stroke="#63778b"/><text x="17" y="50"><tspan x="17" dy="0">GitHub main</tspan><tspan x="17" dy="28">280153e</tspan><tspan x="17" dy="28">No workflow</tspan></text><path d="M255 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="280" y="15" width="250" height="130" rx="12" fill="#e8eef5" stroke="#63778b"/><text x="292" y="50"><tspan x="292" dy="0">VM clean checkout</tspan><tspan x="292" dy="28">1f9713a</tspan><tspan x="292" dy="28">/home/ns090200</tspan></text><path d="M530 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="555" y="15" width="250" height="130" rx="12" fill="#e8eef5" stroke="#63778b"/><text x="567" y="50"><tspan x="567" dy="0">Manual npm start</tspan><tspan x="567" dy="28">Node 18 :3000</tspan><tspan x="567" dy="28">No systemd unit</tspan></text><path d="M805 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="830" y="15" width="250" height="130" rx="12" fill="#e8eef5" stroke="#63778b"/><text x="842" y="50"><tspan x="842" dy="0">Nginx HTTPS</tspan><tspan x="842" dy="28">portfolio domain</tspan><tspan x="842" dy="28">Blog separate</tspan></text></svg><h2>To-be (implemented)</h2><svg viewBox="0 0 1100 165" role="img" aria-label="Deployment flow"><rect x="5" y="15" width="250" height="130" rx="12" fill="#d7f4e7" stroke="#63778b"/><text x="17" y="50"><tspan x="17" dy="0">Push main / manual</tspan><tspan x="17" dy="28">GitHub builds</tspan><tspan x="17" dy="28">Node 22 + standalone</tspan></text><path d="M255 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="280" y="15" width="250" height="130" rx="12" fill="#d7f4e7" stroke="#63778b"/><text x="292" y="50"><tspan x="292" dy="0">Restricted SSH</tspan><tspan x="292" dy="28">Release archive</tspan><tspan x="292" dy="28">/mnt/data/portfolio</tspan></text><path d="M530 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="555" y="15" width="250" height="130" rx="12" fill="#d7f4e7" stroke="#63778b"/><text x="567" y="50"><tspan x="567" dy="0">Health + activation</tspan><tspan x="567" dy="28">systemd :3001</tspan><tspan x="567" dy="28">Rollback on failure</tspan></text><path d="M805 80 h25 l-7 -5 m7 5 l-7 5" fill="none" stroke="#526478" stroke-width="2"/><rect x="830" y="15" width="250" height="130" rx="12" fill="#fff0bf" stroke="#63778b"/><text x="842" y="50"><tspan x="842" dy="0">Nginx HTTPS</tspan><tspan x="842" dy="28">portfolio domain</tspan><tspan x="842" dy="28">Blog unchanged</tspan></text></svg><p>Legend: gray unchanged, green added, amber changed, red removed (none). Arrows show verified/proposed deployment control flow, not inferred application internals. VM: instance-20250329-041212, project junyeopn-devblog, us-central1-c. Live checkout differs from local/main at task start.</p><p>Flow: build standalone + static/public assets → transmit release → validate archive → start temporary server on :3002 → verify revision/home/image → atomically change current symlink → restart systemd → verify :3001 → restore previous release on failure. Initial bootstrap copies the old runtime to the data disk before any Nginx cutover.</p></section><section><h2>Baseline and ownership</h2><p>Local tracked source captured before implementation under .git/task-reviews/20261019-vm-deployment/before with SHA-256 inventory. No pre-existing local edits. VM original checkout was clean at 1f9713a; original Nginx configuration and service/process evidence recorded. No original source files or user content are discarded. Private credentials are excluded from reports and source.</p></section><section><h2>Complete source inventory</h2><table><tr><th>File / subsystem</th><th>Change</th><th>Size</th></tr><tr><td>next.config.js</td><td>Modified</td><td>+1 / -0<br><span class="bar" style="width:1px"></span></td></tr><tr><td>package.json</td><td>Modified</td><td>+6 / -5<br><span class="bar" style="width:11px"></span></td></tr><tr><td>package-lock.json</td><td>Modified</td><td>+581 / -0<br><span class="bar" style="width:200px"></span></td></tr><tr><td>.github/workflows/deploy.yml</td><td>Added</td><td>+69 / -0<br><span class="bar" style="width:69px"></span></td></tr><tr><td>scripts/deploy/package.sh</td><td>Added</td><td>+23 / -0<br><span class="bar" style="width:23px"></span></td></tr><tr><td>scripts/deploy/deploy.sh</td><td>Added</td><td>+83 / -0<br><span class="bar" style="width:83px"></span></td></tr><tr><td>scripts/deploy/extract-release.py</td><td>Added</td><td>+51 / -0<br><span class="bar" style="width:51px"></span></td></tr><tr><td>scripts/deploy/test-extract-release.py</td><td>Added</td><td>+61 / -0<br><span class="bar" style="width:61px"></span></td></tr><tr><td>scripts/deploy/portfolio.service</td><td>Added</td><td>+27 / -0<br><span class="bar" style="width:27px"></span></td></tr><tr><td>scripts/deploy/bootstrap.sh</td><td>Added</td><td>+36 / -0<br><span class="bar" style="width:36px"></span></td></tr><tr><td>scripts/deploy/README.md</td><td>Added</td><td>+72 / -0<br><span class="bar" style="width:72px"></span></td></tr></table><p>Source totals: +1010 / -5. Generated report markup excluded; no authored binary changes.</p></section><section><h2>Inspectable complete diffs</h2><label>Filter file diffs <input id="filter" placeholder="File path"></label><details class="diff"><summary>next.config.js</summary><pre><span class="del">--- task-baseline/next.config.js</span>
+<span class="add">+++ working-tree/next.config.js</span>
+<span class="">@@ -1,5 +1,6 @@</span>
+<span class=""> /** @type {import(&#x27;next&#x27;).NextConfig} */</span>
+<span class=""> const nextConfig = {</span>
+<span class="add">+  output: &#x27;standalone&#x27;,</span>
+<span class="">   reactStrictMode: true,</span>
+<span class="">   images: {</span>
+<span class="">     formats: [&#x27;image/webp&#x27;, &#x27;image/avif&#x27;],</span></pre></details><details class="diff"><summary>package.json</summary><pre><span class="del">--- task-baseline/package.json</span>
+<span class="add">+++ working-tree/package.json</span>
+<span class="">@@ -9,13 +9,14 @@</span>
+<span class="">     &quot;lint&quot;: &quot;next lint&quot;</span>
+<span class="">   },</span>
+<span class="">   &quot;dependencies&quot;: {</span>
+<span class="add">+    &quot;autoprefixer&quot;: &quot;^10.4.17&quot;,</span>
+<span class="add">+    &quot;lucide-react&quot;: &quot;^0.330.0&quot;,</span>
+<span class="">     &quot;next&quot;: &quot;14.1.0&quot;,</span>
+<span class="add">+    &quot;postcss&quot;: &quot;^8.4.35&quot;,</span>
+<span class="">     &quot;react&quot;: &quot;^18.2.0&quot;,</span>
+<span class="">     &quot;react-dom&quot;: &quot;^18.2.0&quot;,</span>
+<span class="del">-    &quot;lucide-react&quot;: &quot;^0.330.0&quot;,</span>
+<span class="del">-    &quot;tailwindcss&quot;: &quot;^3.4.1&quot;,</span>
+<span class="del">-    &quot;autoprefixer&quot;: &quot;^10.4.17&quot;,</span>
+<span class="del">-    &quot;postcss&quot;: &quot;^8.4.35&quot;</span>
+<span class="add">+    &quot;sharp&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+    &quot;tailwindcss&quot;: &quot;^3.4.1&quot;</span>
+<span class="">   },</span>
+<span class="">   &quot;devDependencies&quot;: {</span>
+<span class="">     &quot;@types/node&quot;: &quot;^20.11.19&quot;,</span>
+<span class="">@@ -23,4 +24,4 @@</span>
+<span class="">     &quot;@types/react-dom&quot;: &quot;^18.2.19&quot;,</span>
+<span class="">     &quot;typescript&quot;: &quot;^5.3.3&quot;</span>
+<span class="">   }</span>
+<span class="del">-} </span>
+<span class="add">+}</span></pre></details><details class="diff"><summary>package-lock.json</summary><pre><span class="del">--- task-baseline/package-lock.json</span>
+<span class="add">+++ working-tree/package-lock.json</span>
+<span class="">@@ -14,6 +14,7 @@</span>
+<span class="">         &quot;postcss&quot;: &quot;^8.4.35&quot;,</span>
+<span class="">         &quot;react&quot;: &quot;^18.2.0&quot;,</span>
+<span class="">         &quot;react-dom&quot;: &quot;^18.2.0&quot;,</span>
+<span class="add">+        &quot;sharp&quot;: &quot;0.35.5&quot;,</span>
+<span class="">         &quot;tailwindcss&quot;: &quot;^3.4.1&quot;</span>
+<span class="">       },</span>
+<span class="">       &quot;devDependencies&quot;: {</span>
+<span class="">@@ -33,6 +34,516 @@</span>
+<span class="">       },</span>
+<span class="">       &quot;funding&quot;: {</span>
+<span class="">         &quot;url&quot;: &quot;https://github.com/sponsors/sindresorhus&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@emnapi/runtime&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.11.3&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.11.3.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;MIT&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;dependencies&quot;: {</span>
+<span class="add">+        &quot;tslib&quot;: &quot;^2.4.0&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/colour&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.1.0&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/colour/-/colour-1.1.0.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;MIT&quot;,</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=18&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-darwin-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-darwin-arm64/-/sharp-darwin-arm64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-QRUlFQ0WxvdWyqqG/WtI3iupfD5rBzmCHXSdPsY91sAtVtTo7Q4cb6zOccZ3gqEqkr0f1As1ehLqmEpDsRf+lg==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;darwin&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-darwin-arm64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-darwin-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-darwin-x64/-/sharp-darwin-x64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-+BR255RhDlpygUpOc/Jdt1nT6DQ3XG/ERo5wbcdOf5Q320dKtPCKPLR1LJs9VGXRaMa8l1uUa0tkCNOXiAxZUw==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;darwin&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-darwin-x64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-freebsd-wasm32&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-freebsd-wasm32/-/sharp-freebsd-wasm32-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Y/z91nEZ4uIBX5X3nfTovjU9lHNKFYbL2lpHCLVNmXQK03VIZvXBBt0KxbPGp2SdGSF+2mQU4e+hQaWOt86iAw==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;freebsd&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;dependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-wasm32&quot;: &quot;0.35.5&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-darwin-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-darwin-arm64/-/sharp-libvips-darwin-arm64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-5R89nBYiRdUlSWJxPhO+GVtaXzXSxKnRu/xqMn3KTA3L9EB9Oy/P+Nn2f2vlhPuUdy/Zusb2DarbyTpGCfEDuw==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;darwin&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-darwin-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-darwin-x64/-/sharp-libvips-darwin-x64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-iR2OKH80yi0U+dUplyh3/xdpFvps6YkCwsXenIJxqxR1v9o+xtKTGbS9H7cps+2Vxjc8B1j96p75NmTGjIhtpQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;darwin&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-arm&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-arm/-/sharp-libvips-linux-arm-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-LmRtTsOHuvM2+wlO2Db37dx5MiZhB0FvSunciw48YjdOkZz9KAiRbm8ujeMOA1INqmei5NapFxYEK1D1ZSidmw==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-arm64/-/sharp-libvips-linux-arm64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Y3dgX/6lE2QhQb+Gxy0WZxfg9MEm/JBjamZpS2IklP7xIQoKN4hzAm7KcMVGtaVDt3neE9OKBC7vAfonA/Lr1A==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-ppc64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-ppc64/-/sharp-libvips-linux-ppc64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Le6boB8Tai0Nis+gIxIpKx68UDVVIqdR8Tin5Yf1z2LJJQLDJvCDRqRu+jC2qCoD+eIomonmOwB4smBRxfVpYQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;ppc64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-riscv64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-riscv64/-/sharp-libvips-linux-riscv64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-aHkkIEHPRdQEegJN20MLmGtxYD9R2wQr3Cwpddnu5+YKMt6Uzax7S9h5gpZTo8wyrGuZSlfQ63OevL5mTyOC7Q==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;riscv64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-s390x&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-s390x/-/sharp-libvips-linux-s390x-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-ra/mB6MikESDUO7Yg+Mi95bFBb9GsObURuhnOv3OqknjGe9sZrG8tCe9q0xSIGrtLgvgw0gKnFWcK4blSgQOuQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;s390x&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linux-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linux-x64/-/sharp-libvips-linux-x64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-GJ//SSXbnwSDes02umB3nDJLFcQzw8a18V8fyhqr6tV515tOEMdImjjxj1AoafMRz56F3PHgftnj1QEKSU1zkw==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linuxmusl-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linuxmusl-arm64/-/sharp-libvips-linuxmusl-arm64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-hvulFwtjUcagsis6BBxHwGFwWoNZjgYmULGVrZcyfNbjA8hKILbRxGg15/7w5HDyXHXUos/j6baAWqnCyQ2DWA==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-libvips-linuxmusl-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-libvips-linuxmusl-x64/-/sharp-libvips-linuxmusl-x64-1.3.4.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-6zXKeE/p39I1AmA3cJG35eyBGNqNddLnUXjhwBnsGjFPWqf5VKkDBEqaEkPDoTEtkxwi2vv8Tcr2mDyP4So7Fg==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-arm&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-arm/-/sharp-linux-arm-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-LEaXK2WdXVK5ykcw0buWyPMsmLLL2vpHLD6yrNSW+JGEL3BZPA4tpKN6iaMc4AxTTAoaX/sU1rOL51lcIz48ZQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-arm&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-arm64/-/sharp-linux-arm64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-LYVx5JTsOM2CBzmxreh+nl64/3H6Xb09iSLknqH47z2T2DFFxDeFLP5y4dJwe6H7uGQlHPyEEtIqyo3DYsRwdQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-arm64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-ppc64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-ppc64/-/sharp-linux-ppc64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-QVxAAq8evVRI9ia2vqgwrmWucn5Dfv+JdWzj75pD8omHLPSP7f8p20O8jxzjCcuCEQEOtYOZUmX1hkiZ0kdevA==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;ppc64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-ppc64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-riscv64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-riscv64/-/sharp-linux-riscv64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-LtdreXguaavKODPIfzJ4kffx7UNt1omwtK0rch4EBbbSTXPnxWmYSayXdLJw0fJzQ97kHt1gL/yh4tvU+nCyRQ==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;riscv64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-riscv64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-s390x&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-s390x/-/sharp-linux-s390x-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-UZasTOFiYzotTsGOCu42BfUzP6Tu6Do/947iRm1RsLKvlllxwGcn4RN27LibGWceix4Y+Pmw3jsnTcCQIgWjqA==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;s390x&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-s390x&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linux-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linux-x64/-/sharp-linux-x64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-SxFtLTeJInhAA9Q836kux2vZNeOBQEx658qvbboZScr0wIARym3IcGmW7KpVD5sbVg0Ojy+udFQdayYIZyoNog==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-x64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linuxmusl-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linuxmusl-arm64/-/sharp-linuxmusl-arm64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-9HbMclmI1zlNkFRs3z9/eBtDjfD0sGlrX1z6b1qwmiFY5ElDLh4BC0LPBdVp7z1DXFiKlIcznf+ZlsuZzLxQqg==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linuxmusl-arm64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-linuxmusl-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-linuxmusl-x64/-/sharp-linuxmusl-x64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-4KOphqB035HrVdqLZfCgMzzERrQkkzOwRhl4OAkRO1YCldbaFjySXMaK534Mo0V+LndnlJk+sbUyLeU0ULyD1A==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;linux&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-libvips-linuxmusl-x64&quot;: &quot;1.3.4&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-wasm32&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-wasm32/-/sharp-wasm32-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Ptsga1su4tQx+LLF1ECS9U6nz5kmrXKo6XVbtR48Ke3ZRxxgaWBu7IDtEe1quo8hiupwm6WFqxVlXaSf7IINGQ==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0 AND LGPL-3.0-or-later AND MIT&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;dependencies&quot;: {</span>
+<span class="add">+        &quot;@emnapi/runtime&quot;: &quot;^1.11.3&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-webcontainers-wasm32&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-webcontainers-wasm32/-/sharp-webcontainers-wasm32-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-hfhF/FmoQyTUkA0bIKFOtw536BQSeBMe6BF6QyWlrPxT754+TFLaZ7sKKTfvvM0yJgKgaYTwnFCIZ/GuDw5SUA==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;wasm32&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;dependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-wasm32&quot;: &quot;0.35.5&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-win32-arm64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-win32-arm64/-/sharp-win32-arm64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-X4t7g+7ZA5DKblCBEXGjUqqemj4vczING/5viFwAL8h4N3qYeyjwdCvRLHi4EdOUI+2Z7UFlp1VM+p/AuEtm6Q==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;arm64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0 AND LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;win32&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-win32-ia32&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-win32-ia32/-/sharp-win32-ia32-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-5Zm82LoBc43nhwNybZlG7Y1KO//Zhsn306fQl29ZOuStHLGTo3BWL83q3cznX0poxSAMuYL1On/BHBxkBeKr6A==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;ia32&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0 AND LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;win32&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;^20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/@img/sharp-win32-x64&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-x76eH0vEiHlcMQu8Y8IenntaACtddpT6W0wmXtWrnKcnKI7ME5DdgqhAD6SEWOEl1v2zDvkZDhFA9KnURwpfqg==&quot;,</span>
+<span class="add">+      &quot;cpu&quot;: [</span>
+<span class="add">+        &quot;x64&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0 AND LGPL-3.0-or-later&quot;,</span>
+<span class="add">+      &quot;optional&quot;: true,</span>
+<span class="add">+      &quot;os&quot;: [</span>
+<span class="add">+        &quot;win32&quot;</span>
+<span class="add">+      ],</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="">       }</span>
+<span class="">     },</span>
+<span class="">     &quot;node_modules/@isaacs/cliui&quot;: {</span>
+<span class="">@@ -640,6 +1151,15 @@</span>
+<span class="">       &quot;integrity&quot;: &quot;sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==&quot;,</span>
+<span class="">       &quot;dev&quot;: true,</span>
+<span class="">       &quot;license&quot;: &quot;MIT&quot;</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/detect-libc&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;2.1.2&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=8&quot;</span>
+<span class="add">+      }</span>
+<span class="">     },</span>
+<span class="">     &quot;node_modules/didyoumean&quot;: {</span>
+<span class="">       &quot;version&quot;: &quot;1.2.2&quot;,</span>
+<span class="">@@ -1476,6 +1996,67 @@</span>
+<span class="">       &quot;license&quot;: &quot;MIT&quot;,</span>
+<span class="">       &quot;dependencies&quot;: {</span>
+<span class="">         &quot;loose-envify&quot;: &quot;^1.1.0&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/semver&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;7.8.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/semver/-/semver-7.8.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;ISC&quot;,</span>
+<span class="add">+      &quot;bin&quot;: {</span>
+<span class="add">+        &quot;semver&quot;: &quot;bin/semver.js&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=10&quot;</span>
+<span class="add">+      }</span>
+<span class="add">+    },</span>
+<span class="add">+    &quot;node_modules/sharp&quot;: {</span>
+<span class="add">+      &quot;version&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/sharp/-/sharp-0.35.5.tgz&quot;,</span>
+<span class="add">+      &quot;integrity&quot;: &quot;sha512-Ywn4OnzGukp7CDMrp08RQ50YKmuwG47brZgIVPTvBaaAfQlRlygrRqSrxdCiL9M+LlzLBiJ68IR1QqvzHyjC7g==&quot;,</span>
+<span class="add">+      &quot;license&quot;: &quot;Apache-2.0&quot;,</span>
+<span class="add">+      &quot;dependencies&quot;: {</span>
+<span class="add">+        &quot;@img/colour&quot;: &quot;^1.1.0&quot;,</span>
+<span class="add">+        &quot;detect-libc&quot;: &quot;^2.1.2&quot;,</span>
+<span class="add">+        &quot;semver&quot;: &quot;^7.8.5&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;engines&quot;: {</span>
+<span class="add">+        &quot;node&quot;: &quot;&gt;=20.9.0&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;funding&quot;: {</span>
+<span class="add">+        &quot;url&quot;: &quot;https://opencollective.com/libvips&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;optionalDependencies&quot;: {</span>
+<span class="add">+        &quot;@img/sharp-darwin-arm64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-darwin-x64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-freebsd-wasm32&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-darwin-arm64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-darwin-x64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-arm&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-arm64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-ppc64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-riscv64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-s390x&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linux-x64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linuxmusl-arm64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-libvips-linuxmusl-x64&quot;: &quot;1.3.4&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-arm&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-arm64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-ppc64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-riscv64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-s390x&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linux-x64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linuxmusl-arm64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-linuxmusl-x64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-webcontainers-wasm32&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-win32-arm64&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-win32-ia32&quot;: &quot;0.35.5&quot;,</span>
+<span class="add">+        &quot;@img/sharp-win32-x64&quot;: &quot;0.35.5&quot;</span>
+<span class="add">+      },</span>
+<span class="add">+      &quot;peerDependenciesMeta&quot;: {</span>
+<span class="add">+        &quot;@types/node&quot;: {</span>
+<span class="add">+          &quot;optional&quot;: true</span>
+<span class="add">+        }</span>
+<span class="">       }</span>
+<span class="">     },</span>
+<span class="">     &quot;node_modules/shebang-command&quot;: {</span></pre></details><details class="diff"><summary>.github/workflows/deploy.yml</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/.github/workflows/deploy.yml</span>
+<span class="">@@ -0,0 +1,69 @@</span>
+<span class="add">+name: Deploy portfolio</span>
+<span class="add">+</span>
+<span class="add">+on:</span>
+<span class="add">+  push:</span>
+<span class="add">+    branches: [main]</span>
+<span class="add">+  workflow_dispatch:</span>
+<span class="add">+</span>
+<span class="add">+permissions:</span>
+<span class="add">+  contents: read</span>
+<span class="add">+</span>
+<span class="add">+concurrency:</span>
+<span class="add">+  group: portfolio-production</span>
+<span class="add">+  cancel-in-progress: false</span>
+<span class="add">+</span>
+<span class="add">+jobs:</span>
+<span class="add">+  deploy:</span>
+<span class="add">+    if: github.ref == &#x27;refs/heads/main&#x27;</span>
+<span class="add">+    runs-on: ubuntu-22.04</span>
+<span class="add">+    timeout-minutes: 20</span>
+<span class="add">+    environment:</span>
+<span class="add">+      name: production</span>
+<span class="add">+      url: https://junyeopnaportfolio.dev</span>
+<span class="add">+    env:</span>
+<span class="add">+      NEXT_TELEMETRY_DISABLED: &#x27;1&#x27;</span>
+<span class="add">+    steps:</span>
+<span class="add">+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4</span>
+<span class="add">+        with:</span>
+<span class="add">+          persist-credentials: false</span>
+<span class="add">+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4</span>
+<span class="add">+        with:</span>
+<span class="add">+          node-version: &#x27;22&#x27;</span>
+<span class="add">+          cache: npm</span>
+<span class="add">+      - name: Install and build</span>
+<span class="add">+        run: |</span>
+<span class="add">+          bash -n scripts/deploy/*.sh</span>
+<span class="add">+          python3 scripts/deploy/test-extract-release.py</span>
+<span class="add">+          npm ci</span>
+<span class="add">+          npm run build</span>
+<span class="add">+      - name: Package standalone release</span>
+<span class="add">+        run: bash scripts/deploy/package.sh &quot;$GITHUB_SHA&quot; &quot;$RUNNER_TEMP/portfolio-release.tar.gz&quot;</span>
+<span class="add">+      - name: Deploy and verify public revision</span>
+<span class="add">+        env:</span>
+<span class="add">+          VM_HOST: ${{ vars.VM_HOST }}</span>
+<span class="add">+          VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}</span>
+<span class="add">+          VM_SSH_KNOWN_HOSTS: ${{ secrets.VM_SSH_KNOWN_HOSTS }}</span>
+<span class="add">+        shell: bash</span>
+<span class="add">+        run: |</span>
+<span class="add">+          set -euo pipefail</span>
+<span class="add">+          test -n &quot;$VM_HOST&quot;</span>
+<span class="add">+          umask 077</span>
+<span class="add">+          ssh_dir=$(mktemp -d &quot;$RUNNER_TEMP/portfolio-ssh.XXXXXX&quot;)</span>
+<span class="add">+          trap &#x27;rm -rf -- &quot;$ssh_dir&quot;&#x27; EXIT</span>
+<span class="add">+          printf &#x27;%s\n&#x27; &quot;$VM_SSH_PRIVATE_KEY&quot; &gt; &quot;$ssh_dir/key&quot;</span>
+<span class="add">+          printf &#x27;%s\n&#x27; &quot;$VM_SSH_KNOWN_HOSTS&quot; &gt; &quot;$ssh_dir/known_hosts&quot;</span>
+<span class="add">+          ssh -i &quot;$ssh_dir/key&quot; -o BatchMode=yes -o IdentitiesOnly=yes \</span>
+<span class="add">+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile=&quot;$ssh_dir/known_hosts&quot; \</span>
+<span class="add">+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 \</span>
+<span class="add">+            &quot;portfolio-deploy@$VM_HOST&quot; &quot;deploy $GITHUB_SHA&quot; &lt; &quot;$RUNNER_TEMP/portfolio-release.tar.gz&quot;</span>
+<span class="add">+          for attempt in $(seq 1 15); do</span>
+<span class="add">+            actual=$(curl --fail --silent --show-error --max-time 10 \</span>
+<span class="add">+              &quot;https://junyeopnaportfolio.dev/deployment-revision.txt?expected=$GITHUB_SHA&quot;) || actual=&#x27;&#x27;</span>
+<span class="add">+            if [ &quot;$actual&quot; = &quot;$GITHUB_SHA&quot; ]; then</span>
+<span class="add">+              echo &quot;Deployed $GITHUB_SHA to https://junyeopnaportfolio.dev&quot; &gt;&gt; &quot;$GITHUB_STEP_SUMMARY&quot;</span>
+<span class="add">+              exit 0</span>
+<span class="add">+            fi</span>
+<span class="add">+            sleep 2</span>
+<span class="add">+          done</span>
+<span class="add">+          echo &#x27;Public revision check failed; inspect the VM and workflow logs.&#x27; &gt;&amp;2</span>
+<span class="add">+          exit 1</span></pre></details><details class="diff"><summary>scripts/deploy/package.sh</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/package.sh</span>
+<span class="">@@ -0,0 +1,23 @@</span>
+<span class="add">+#!/usr/bin/env bash</span>
+<span class="add">+set -euo pipefail</span>
+<span class="add">+revision=${1:?Expected commit SHA}</span>
+<span class="add">+archive=${2:?Expected archive output path}</span>
+<span class="add">+[[ &quot;$revision&quot; =~ ^[0-9a-f]{40}$ ]] || { echo &#x27;Invalid revision&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+[[ $(uname -s) == Linux &amp;&amp; $(uname -m) == x86_64 ]] || { echo &#x27;Package on Linux x64&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+test -f .next/standalone/server.js</span>
+<span class="add">+stage=$(mktemp -d)</span>
+<span class="add">+trap &#x27;rm -rf -- &quot;$stage&quot;&#x27; EXIT</span>
+<span class="add">+cp -a .next/standalone/. &quot;$stage/&quot;</span>
+<span class="add">+mkdir -p &quot;$stage/.next&quot;</span>
+<span class="add">+cp -a .next/static &quot;$stage/.next/static&quot;</span>
+<span class="add">+cp -a public &quot;$stage/public&quot;</span>
+<span class="add">+cp &quot;$(command -v node)&quot; &quot;$stage/node&quot;</span>
+<span class="add">+printf &#x27;%s\n&#x27; &quot;$revision&quot; &gt; &quot;$stage/public/deployment-revision.txt&quot;</span>
+<span class="add">+cat &gt; &quot;$stage/start.sh&quot; &lt;&lt;&#x27;START&#x27;</span>
+<span class="add">+#!/usr/bin/env bash</span>
+<span class="add">+set -euo pipefail</span>
+<span class="add">+exec ./node server.js</span>
+<span class="add">+START</span>
+<span class="add">+chmod 755 &quot;$stage/node&quot; &quot;$stage/start.sh&quot;</span>
+<span class="add">+tar -C &quot;$stage&quot; -czf &quot;$archive&quot; .</span>
+<span class="add">+echo &quot;Packaged revision $revision ($(du -h &quot;$archive&quot; | cut -f1))&quot;</span></pre></details><details class="diff"><summary>scripts/deploy/deploy.sh</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/deploy.sh</span>
+<span class="">@@ -0,0 +1,83 @@</span>
+<span class="add">+#!/usr/bin/env bash</span>
+<span class="add">+# Installed root-owned; called only through the forced SSH command.</span>
+<span class="add">+set -Eeuo pipefail</span>
+<span class="add">+umask 027</span>
+<span class="add">+base=/mnt/data/portfolio</span>
+<span class="add">+[[ &quot;${SSH_ORIGINAL_COMMAND:-}&quot; =~ ^deploy\ ([0-9a-f]{40})$ ]] || { echo &#x27;Only deploy &lt;commit SHA&gt; is allowed&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+revision=${BASH_REMATCH[1]}</span>
+<span class="add">+exec 9&gt;&quot;$base/deploy.lock&quot;</span>
+<span class="add">+flock -w 600 9 || { echo &#x27;Deployment is busy&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+incoming=$(mktemp -d &quot;$base/releases/.incoming.XXXXXX&quot;)</span>
+<span class="add">+preview_pid=&#x27;&#x27;</span>
+<span class="add">+previous=$(readlink -f &quot;$base/current&quot;)</span>
+<span class="add">+switched=false</span>
+<span class="add">+</span>
+<span class="add">+point_current() {</span>
+<span class="add">+  ln -s &quot;$1&quot; &quot;$base/current.next&quot;</span>
+<span class="add">+  mv -Tf &quot;$base/current.next&quot; &quot;$base/current&quot;</span>
+<span class="add">+}</span>
+<span class="add">+</span>
+<span class="add">+cleanup() {</span>
+<span class="add">+  result=$?</span>
+<span class="add">+  trap - EXIT</span>
+<span class="add">+  set +e</span>
+<span class="add">+  if [[ -n &quot;$preview_pid&quot; ]]; then kill &quot;$preview_pid&quot; 2&gt;/dev/null; wait &quot;$preview_pid&quot; 2&gt;/dev/null; fi</span>
+<span class="add">+  if [[ $result -ne 0 &amp;&amp; &quot;$switched&quot; == true ]]; then</span>
+<span class="add">+    echo &quot;Activation failed; restoring $previous&quot; &gt;&amp;2</span>
+<span class="add">+    point_current &quot;$previous&quot;</span>
+<span class="add">+    sudo -n /usr/bin/systemctl restart portfolio.service</span>
+<span class="add">+    if healthy 3001 &quot;$(cat &quot;$previous/public/deployment-revision.txt&quot;)&quot;; then</span>
+<span class="add">+      echo &#x27;Previous release restored&#x27; &gt;&amp;2</span>
+<span class="add">+    else</span>
+<span class="add">+      echo &#x27;CRITICAL: rollback health check failed&#x27; &gt;&amp;2</span>
+<span class="add">+    fi</span>
+<span class="add">+  fi</span>
+<span class="add">+  rm -rf -- &quot;$incoming&quot;</span>
+<span class="add">+  exit &quot;$result&quot;</span>
+<span class="add">+}</span>
+<span class="add">+trap cleanup EXIT</span>
+<span class="add">+</span>
+<span class="add">+healthy() {</span>
+<span class="add">+  local port=$1 expected=$2 actual</span>
+<span class="add">+  for attempt in $(seq 1 30); do</span>
+<span class="add">+    actual=$(curl -fsS --max-time 2 &quot;http://127.0.0.1:$port/deployment-revision.txt&quot; 2&gt;/dev/null) || actual=&#x27;&#x27;</span>
+<span class="add">+    if [[ &quot;$actual&quot; == &quot;$expected&quot; ]] &amp;&amp; curl -fsS --max-time 5 &quot;http://127.0.0.1:$port/&quot; -o /dev/null; then return 0; fi</span>
+<span class="add">+    sleep 1</span>
+<span class="add">+  done</span>
+<span class="add">+  return 1</span>
+<span class="add">+}</span>
+<span class="add">+</span>
+<span class="add">+# Limit compressed input before parsing; extraction validates expanded sizes/paths.</span>
+<span class="add">+head -c 262144001 &gt; &quot;$incoming/release.tar.gz&quot;</span>
+<span class="add">+[[ $(stat -c %s &quot;$incoming/release.tar.gz&quot;) -le 262144000 ]] || { echo &#x27;Archive too large&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+mkdir &quot;$incoming/unpacked&quot;</span>
+<span class="add">+python3 /usr/local/lib/portfolio/extract-release.py &quot;$incoming/release.tar.gz&quot; &quot;$incoming/unpacked&quot;</span>
+<span class="add">+[[ $(cat &quot;$incoming/unpacked/public/deployment-revision.txt&quot;) == &quot;$revision&quot; ]] || { echo &#x27;Revision mismatch&#x27; &gt;&amp;2; exit 1; }</span>
+<span class="add">+release=&quot;$base/releases/$revision&quot;</span>
+<span class="add">+if [[ ! -d &quot;$release&quot; ]]; then mv &quot;$incoming/unpacked&quot; &quot;$release&quot;; fi</span>
+<span class="add">+cd &quot;$release&quot;</span>
+<span class="add">+PORT=3002 HOSTNAME=127.0.0.1 NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 \</span>
+<span class="add">+  /bin/bash ./start.sh &gt; &quot;$incoming/preview.log&quot; 2&gt;&amp;1 &amp;</span>
+<span class="add">+preview_pid=$!</span>
+<span class="add">+if ! healthy 3002 &quot;$revision&quot;; then cat &quot;$incoming/preview.log&quot; &gt;&amp;2; exit 1; fi</span>
+<span class="add">+curl -fsS --max-time 30 &#x27;http://127.0.0.1:3002/_next/image?url=%2Fimages%2Fnaver_icon.png&amp;w=96&amp;q=75&#x27; -o /dev/null</span>
+<span class="add">+kill &quot;$preview_pid&quot;</span>
+<span class="add">+wait &quot;$preview_pid&quot; 2&gt;/dev/null || true</span>
+<span class="add">+preview_pid=&#x27;&#x27;</span>
+<span class="add">+point_current &quot;$release&quot;</span>
+<span class="add">+switched=true</span>
+<span class="add">+sudo -n /usr/bin/systemctl restart portfolio.service</span>
+<span class="add">+healthy 3001 &quot;$revision&quot;</span>
+<span class="add">+ln -sfn &quot;$previous&quot; &quot;$base/previous&quot;</span>
+<span class="add">+switched=false</span>
+<span class="add">+echo &quot;Activated $revision&quot;</span>
+<span class="add">+</span>
+<span class="add">+# Keep the active release, previous release, and three other recent releases.</span>
+<span class="add">+kept=0</span>
+<span class="add">+while IFS= read -r candidate; do</span>
+<span class="add">+  [[ &quot;$candidate&quot; =~ ^[0-9a-f]{40}$ ]] || continue</span>
+<span class="add">+  path=&quot;$base/releases/$candidate&quot;</span>
+<span class="add">+  [[ &quot;$path&quot; == &quot;$release&quot; || &quot;$path&quot; == &quot;$previous&quot; ]] &amp;&amp; continue</span>
+<span class="add">+  kept=$((kept + 1))</span>
+<span class="add">+  if [[ $kept -gt 3 ]]; then rm -rf -- &quot;$path&quot;; fi</span>
+<span class="add">+done &lt; &lt;(find &quot;$base/releases&quot; -mindepth 1 -maxdepth 1 -type d -printf &#x27;%T@ %f\n&#x27; | sort -nr | cut -d&#x27; &#x27; -f2)</span></pre></details><details class="diff"><summary>scripts/deploy/extract-release.py</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/extract-release.py</span>
+<span class="">@@ -0,0 +1,51 @@</span>
+<span class="add">+#!/usr/bin/env python3</span>
+<span class="add">+&quot;&quot;&quot;Validate untrusted archive names/links/sizes before extracting a release.&quot;&quot;&quot;</span>
+<span class="add">+from pathlib import Path, PurePosixPath</span>
+<span class="add">+import os</span>
+<span class="add">+import shutil</span>
+<span class="add">+import sys</span>
+<span class="add">+import tarfile</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+def extract(archive: Path, destination: Path) -&gt; None:</span>
+<span class="add">+    with tarfile.open(archive, &#x27;r:gz&#x27;) as bundle:</span>
+<span class="add">+        members = bundle.getmembers()</span>
+<span class="add">+        if len(members) &gt; 50000 or sum(m.size for m in members) &gt; 750 * 1024 * 1024:</span>
+<span class="add">+            raise ValueError(&#x27;Release exceeds unpacked size/file limit&#x27;)</span>
+<span class="add">+        for member in members:</span>
+<span class="add">+            name = PurePosixPath(member.name)</span>
+<span class="add">+            if name.is_absolute() or &#x27;..&#x27; in name.parts:</span>
+<span class="add">+                raise ValueError(&#x27;Unsafe archive path&#x27;)</span>
+<span class="add">+            if not (member.isfile() or member.isdir() or member.issym()):</span>
+<span class="add">+                raise ValueError(&#x27;Unsupported archive member type&#x27;)</span>
+<span class="add">+            if member.issym():</span>
+<span class="add">+                target = PurePosixPath(member.linkname)</span>
+<span class="add">+                if target.is_absolute() or &#x27;..&#x27; in target.parts:</span>
+<span class="add">+                    raise ValueError(&#x27;Unsafe archive symlink&#x27;)</span>
+<span class="add">+        # Do not use extractall: the VM&#x27;s Python predates tarfile&#x27;s data filter.</span>
+<span class="add">+        # Ignore archive ownership and special permissions; never follow a file symlink.</span>
+<span class="add">+        root = destination.resolve()</span>
+<span class="add">+        for member in members:</span>
+<span class="add">+            output = destination / member.name</span>
+<span class="add">+            if not output.resolve().is_relative_to(root):</span>
+<span class="add">+                raise ValueError(&#x27;Archive path resolves outside release&#x27;)</span>
+<span class="add">+            output.parent.mkdir(parents=True, exist_ok=True)</span>
+<span class="add">+            if member.isdir():</span>
+<span class="add">+                output.mkdir(exist_ok=True)</span>
+<span class="add">+            elif member.issym():</span>
+<span class="add">+                if not (output.parent / member.linkname).resolve().is_relative_to(root):</span>
+<span class="add">+                    raise ValueError(&#x27;Archive link resolves outside release&#x27;)</span>
+<span class="add">+                output.symlink_to(member.linkname)</span>
+<span class="add">+            else:</span>
+<span class="add">+                flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW</span>
+<span class="add">+                with os.fdopen(os.open(output, flags, 0o600), &#x27;wb&#x27;) as target:</span>
+<span class="add">+                    with bundle.extractfile(member) as source:</span>
+<span class="add">+                        shutil.copyfileobj(source, target)</span>
+<span class="add">+                output.chmod(0o755 if member.mode &amp; 0o111 else 0o644)</span>
+<span class="add">+    required = [&#x27;node&#x27;, &#x27;server.js&#x27;, &#x27;start.sh&#x27;, &#x27;.next/BUILD_ID&#x27;, &#x27;public/deployment-revision.txt&#x27;]</span>
+<span class="add">+    if not all((destination / name).is_file() for name in required):</span>
+<span class="add">+        raise ValueError(&#x27;Incomplete standalone release&#x27;)</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+if __name__ == &#x27;__main__&#x27;:</span>
+<span class="add">+    extract(Path(sys.argv[1]), Path(sys.argv[2]))</span></pre></details><details class="diff"><summary>scripts/deploy/test-extract-release.py</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/test-extract-release.py</span>
+<span class="">@@ -0,0 +1,61 @@</span>
+<span class="add">+#!/usr/bin/env python3</span>
+<span class="add">+&quot;&quot;&quot;Small security regression tests for the deployment archive boundary.&quot;&quot;&quot;</span>
+<span class="add">+import importlib.util</span>
+<span class="add">+import io</span>
+<span class="add">+from pathlib import Path</span>
+<span class="add">+import tarfile</span>
+<span class="add">+import tempfile</span>
+<span class="add">+import unittest</span>
+<span class="add">+</span>
+<span class="add">+spec = importlib.util.spec_from_file_location(&#x27;extract_release&#x27;, Path(__file__).with_name(&#x27;extract-release.py&#x27;))</span>
+<span class="add">+module = importlib.util.module_from_spec(spec)</span>
+<span class="add">+spec.loader.exec_module(module)</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+class ArchiveTests(unittest.TestCase):</span>
+<span class="add">+    def check_archive(self, entries, expected_error=None):</span>
+<span class="add">+        with tempfile.TemporaryDirectory() as temp:</span>
+<span class="add">+            root = Path(temp)</span>
+<span class="add">+            archive = root / &#x27;release.tar.gz&#x27;</span>
+<span class="add">+            destination = root / &#x27;release&#x27;</span>
+<span class="add">+            destination.mkdir()</span>
+<span class="add">+            with tarfile.open(archive, &#x27;w:gz&#x27;) as bundle:</span>
+<span class="add">+                for name, kind, value in entries:</span>
+<span class="add">+                    member = tarfile.TarInfo(name)</span>
+<span class="add">+                    member.type = kind</span>
+<span class="add">+                    if kind == tarfile.REGTYPE:</span>
+<span class="add">+                        member.size = len(value)</span>
+<span class="add">+                        bundle.addfile(member, io.BytesIO(value))</span>
+<span class="add">+                    else:</span>
+<span class="add">+                        member.linkname = value</span>
+<span class="add">+                        bundle.addfile(member)</span>
+<span class="add">+            if expected_error:</span>
+<span class="add">+                with self.assertRaises(expected_error):</span>
+<span class="add">+                    module.extract(archive, destination)</span>
+<span class="add">+            else:</span>
+<span class="add">+                module.extract(archive, destination)</span>
+<span class="add">+                self.assertEqual((destination / &#x27;public/deployment-revision.txt&#x27;).read_bytes(), b&#x27;test&#x27;)</span>
+<span class="add">+            self.assertFalse((root / &#x27;escaped&#x27;).exists())</span>
+<span class="add">+</span>
+<span class="add">+    def test_valid_release(self):</span>
+<span class="add">+        self.check_archive([(name, tarfile.REGTYPE, b&#x27;test&#x27;) for name in</span>
+<span class="add">+                            [&#x27;node&#x27;, &#x27;server.js&#x27;, &#x27;start.sh&#x27;, &#x27;.next/BUILD_ID&#x27;, &#x27;public/deployment-revision.txt&#x27;]])</span>
+<span class="add">+</span>
+<span class="add">+    def test_parent_traversal(self):</span>
+<span class="add">+        self.check_archive([(&#x27;../escaped&#x27;, tarfile.REGTYPE, b&#x27;no&#x27;)], ValueError)</span>
+<span class="add">+</span>
+<span class="add">+    def test_absolute_path(self):</span>
+<span class="add">+        self.check_archive([(&#x27;/escaped&#x27;, tarfile.REGTYPE, b&#x27;no&#x27;)], ValueError)</span>
+<span class="add">+</span>
+<span class="add">+    def test_escaping_symlink(self):</span>
+<span class="add">+        self.check_archive([(&#x27;link&#x27;, tarfile.SYMTYPE, &#x27;../escaped&#x27;)], ValueError)</span>
+<span class="add">+</span>
+<span class="add">+    def test_device(self):</span>
+<span class="add">+        self.check_archive([(&#x27;device&#x27;, tarfile.CHRTYPE, &#x27;&#x27;)], ValueError)</span>
+<span class="add">+</span>
+<span class="add">+    def test_incomplete_release(self):</span>
+<span class="add">+        self.check_archive([(&#x27;server.js&#x27;, tarfile.REGTYPE, b&#x27;no&#x27;)], ValueError)</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+if __name__ == &#x27;__main__&#x27;:</span>
+<span class="add">+    unittest.main()</span></pre></details><details class="diff"><summary>scripts/deploy/portfolio.service</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/portfolio.service</span>
+<span class="">@@ -0,0 +1,27 @@</span>
+<span class="add">+[Unit]</span>
+<span class="add">+Description=Junyeop Na portfolio</span>
+<span class="add">+After=network.target</span>
+<span class="add">+</span>
+<span class="add">+[Service]</span>
+<span class="add">+Type=simple</span>
+<span class="add">+User=portfolio-deploy</span>
+<span class="add">+Group=portfolio-deploy</span>
+<span class="add">+WorkingDirectory=/mnt/data/portfolio/current</span>
+<span class="add">+ExecStart=/bin/bash /mnt/data/portfolio/current/start.sh</span>
+<span class="add">+Environment=NODE_ENV=production</span>
+<span class="add">+Environment=NEXT_TELEMETRY_DISABLED=1</span>
+<span class="add">+Environment=HOSTNAME=127.0.0.1</span>
+<span class="add">+Environment=PORT=3001</span>
+<span class="add">+Restart=on-failure</span>
+<span class="add">+RestartSec=3</span>
+<span class="add">+TimeoutStopSec=20</span>
+<span class="add">+KillSignal=SIGTERM</span>
+<span class="add">+NoNewPrivileges=true</span>
+<span class="add">+PrivateTmp=true</span>
+<span class="add">+ProtectSystem=strict</span>
+<span class="add">+ProtectHome=true</span>
+<span class="add">+ReadWritePaths=/mnt/data/portfolio</span>
+<span class="add">+UMask=0027</span>
+<span class="add">+</span>
+<span class="add">+[Install]</span>
+<span class="add">+WantedBy=multi-user.target</span></pre></details><details class="diff"><summary>scripts/deploy/bootstrap.sh</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/bootstrap.sh</span>
+<span class="">@@ -0,0 +1,36 @@</span>
+<span class="add">+#!/usr/bin/env bash</span>
+<span class="add">+# Run once as root from a reviewed copy of scripts/deploy on the VM.</span>
+<span class="add">+set -euo pipefail</span>
+<span class="add">+base=/mnt/data/portfolio</span>
+<span class="add">+legacy=/home/ns090200/portfolio_website</span>
+<span class="add">+here=$(cd -- &quot;$(dirname -- &quot;$0&quot;)&quot; &amp;&amp; pwd)</span>
+<span class="add">+if ! id portfolio-deploy &gt;/dev/null 2&gt;&amp;1; then</span>
+<span class="add">+  useradd --system --home-dir &quot;$base&quot; --shell /bin/bash --user-group portfolio-deploy</span>
+<span class="add">+fi</span>
+<span class="add">+install -d -m 755 -o portfolio-deploy -g portfolio-deploy &quot;$base&quot; &quot;$base/releases&quot;</span>
+<span class="add">+install -d -m 755 /usr/local/lib/portfolio</span>
+<span class="add">+install -m 755 &quot;$here/deploy.sh&quot; /usr/local/lib/portfolio/deploy.sh</span>
+<span class="add">+install -m 644 &quot;$here/extract-release.py&quot; /usr/local/lib/portfolio/extract-release.py</span>
+<span class="add">+install -m 644 &quot;$here/portfolio.service&quot; /etc/systemd/system/portfolio.service</span>
+<span class="add">+printf &#x27;portfolio-deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart portfolio.service\n&#x27; &gt; /etc/sudoers.d/portfolio-deploy</span>
+<span class="add">+chmod 440 /etc/sudoers.d/portfolio-deploy</span>
+<span class="add">+visudo -cf /etc/sudoers.d/portfolio-deploy</span>
+<span class="add">+if [[ ! -L &quot;$base/current&quot; ]]; then</span>
+<span class="add">+  bootstrap=&quot;$base/releases/bootstrap&quot;</span>
+<span class="add">+  install -d -m 755 &quot;$bootstrap&quot;</span>
+<span class="add">+  for item in .next node_modules public package.json next.config.js; do</span>
+<span class="add">+    cp -a &quot;$legacy/$item&quot; &quot;$bootstrap/&quot;</span>
+<span class="add">+  done</span>
+<span class="add">+  printf &#x27;legacy-%s\n&#x27; &quot;$(git -C &quot;$legacy&quot; rev-parse HEAD)&quot; &gt; &quot;$bootstrap/public/deployment-revision.txt&quot;</span>
+<span class="add">+  cat &gt; &quot;$bootstrap/start.sh&quot; &lt;&lt;&#x27;START&#x27;</span>
+<span class="add">+#!/usr/bin/env bash</span>
+<span class="add">+set -euo pipefail</span>
+<span class="add">+exec /usr/bin/node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port &quot;${PORT:-3001}&quot;</span>
+<span class="add">+START</span>
+<span class="add">+  chmod 755 &quot;$bootstrap/start.sh&quot;</span>
+<span class="add">+  chown -R portfolio-deploy:portfolio-deploy &quot;$bootstrap&quot;</span>
+<span class="add">+  ln -s &quot;$bootstrap&quot; &quot;$base/current&quot;</span>
+<span class="add">+fi</span>
+<span class="add">+systemctl daemon-reload</span>
+<span class="add">+systemctl enable --now portfolio.service</span>
+<span class="add">+# Nginx is switched separately only after verifying this bootstrap runtime.</span></pre></details><details class="diff"><summary>scripts/deploy/README.md</summary><pre><span class="del">--- /dev/null</span>
+<span class="add">+++ working-tree/scripts/deploy/README.md</span>
+<span class="">@@ -0,0 +1,72 @@</span>
+<span class="add">+# Portfolio deployment</span>
+<span class="add">+</span>
+<span class="add">+Every push to `main` runs `.github/workflows/deploy.yml`.</span>
+<span class="add">+The workflow can also be run manually on `main`.</span>
+<span class="add">+</span>
+<span class="add">+GitHub builds with Node 22 and packages Next.js standalone output, public/static assets,</span>
+<span class="add">+sharp, and the same Linux Node executable. The VM does not install dependencies or build.</span>
+<span class="add">+Production environment secrets are `VM_SSH_PRIVATE_KEY` and `VM_SSH_KNOWN_HOSTS`;</span>
+<span class="add">+repository variable `VM_HOST` selects the server. Secrets are never committed.</span>
+<span class="add">+The production environment allows deployments from `main` only.</span>
+<span class="add">+</span>
+<span class="add">+## Server layout</span>
+<span class="add">+</span>
+<span class="add">+- Google Cloud: `junyeopn-devblog`, `us-central1-c`, `instance-20250329-041212`.</span>
+<span class="add">+- Website: `https://junyeopnaportfolio.dev` (also `www`).</span>
+<span class="add">+- Original checkout: `/home/ns090200/portfolio_website`, retained for recovery.</span>
+<span class="add">+- Releases: `/mnt/data/portfolio/releases/&lt;commit SHA&gt;`; `current` and `previous` symlinks.</span>
+<span class="add">+- Service: `portfolio.service`, running as `portfolio-deploy` on loopback port 3001.</span>
+<span class="add">+- Preview: temporary loopback port 3002; Nginx proxies production to port 3001.</span>
+<span class="add">+- Installed deployment handler: `/usr/local/lib/portfolio/deploy.sh` and archive validator.</span>
+<span class="add">+- SSH key is restricted to the fixed deployment handler, without PTY/forwarding.</span>
+<span class="add">+- The deployment user can sudo only `systemctl restart portfolio.service`.</span>
+<span class="add">+</span>
+<span class="add">+`bootstrap.sh` is a one-time administrator setup. It copies the original runtime to</span>
+<span class="add">+the data disk and starts it under systemd. Before changing Nginx, verify port 3001.</span>
+<span class="add">+Only the portfolio virtual host&#x27;s upstream should change from 3000 to 3001; the blog</span>
+<span class="add">+and TLS configuration are separate and remain untouched. Keep a copy of that virtual</span>
+<span class="add">+host before changing it, and run `sudo nginx -t` before reloading.</span>
+<span class="add">+</span>
+<span class="add">+The handler validates archive paths, types, sizes and the revision marker. It starts</span>
+<span class="add">+the release on port 3002, checks the revision, homepage and image optimizer, then switches</span>
+<span class="add">+`current` and restarts systemd. An activation failure restores the old symlink and service.</span>
+<span class="add">+A VM lock and workflow concurrency prevent overlapping deployments. Five recent/active</span>
+<span class="add">+releases are retained, plus the legacy bootstrap. The workflow checks the public revision</span>
+<span class="add">+after the VM has activated it. A public connectivity failure fails the job for investigation;</span>
+<span class="add">+it does not reverse a healthy local release.</span>
+<span class="add">+</span>
+<span class="add">+## Inspect or recover</span>
+<span class="add">+</span>
+<span class="add">+As the VM administrator:</span>
+<span class="add">+</span>
+<span class="add">+```sh</span>
+<span class="add">+sudo systemctl status portfolio.service</span>
+<span class="add">+sudo journalctl -u portfolio.service -n 100 --no-pager</span>
+<span class="add">+readlink -f /mnt/data/portfolio/current</span>
+<span class="add">+curl -fsS http://127.0.0.1:3001/deployment-revision.txt</span>
+<span class="add">+curl -fsS https://junyeopnaportfolio.dev/deployment-revision.txt</span>
+<span class="add">+```</span>
+<span class="add">+</span>
+<span class="add">+For a manual rollback, hold the same deployment lock, select the saved previous</span>
+<span class="add">+release, and restart the service:</span>
+<span class="add">+</span>
+<span class="add">+```sh</span>
+<span class="add">+sudo -u portfolio-deploy bash -c &#x27;</span>
+<span class="add">+  set -eu</span>
+<span class="add">+  base=/mnt/data/portfolio</span>
+<span class="add">+  exec 9&gt;&quot;$base/deploy.lock&quot;</span>
+<span class="add">+  flock -w 600 9</span>
+<span class="add">+  previous=$(readlink -f &quot;$base/previous&quot;)</span>
+<span class="add">+  test -f &quot;$previous/start.sh&quot;</span>
+<span class="add">+  ln -s &quot;$previous&quot; &quot;$base/current.next&quot;</span>
+<span class="add">+  mv -Tf &quot;$base/current.next&quot; &quot;$base/current&quot;</span>
+<span class="add">+  sudo -n /usr/bin/systemctl restart portfolio.service</span>
+<span class="add">+&#x27;</span>
+<span class="add">+```</span>
+<span class="add">+</span>
+<span class="add">+Then check the local and public revision endpoints. Failed preview releases do not</span>
+<span class="add">+change `current`; rerunning a deployment for an already-staged SHA reuses its release.</span>
+<span class="add">+To change installed deploy scripts or the service definition, review and reinstall</span>
+<span class="add">+those files as administrator; an ordinary application deployment cannot rewrite them.</span>
+<span class="add">+To rotate credentials, replace the restricted authorized key and the matching GitHub</span>
+<span class="add">+environment secret together. Keep host-key verification enabled.</span></pre></details></section><section><h2>VM and GitHub configuration</h2><p>Planned/implemented state is distinguished in the status above. Dedicated account/home /mnt/data/portfolio; root-owned deploy entry and archive validator in /usr/local/lib/portfolio; systemd portfolio.service; sudo permission only for that service restart; restricted SSH authorized key; pinned known_hosts secret and repository deployment key secret. Nginx portfolio upstream changes from port 3000 to 3001 only after health checks. Existing blog virtual host and original checkout preserved. Runtime files and release archives are external deployment state, not repository assets.</p></section><section><h2>Verification and limitations</h2><p>See dated status above for actual build, script, rollback and public HTTP outcomes. Browser inventory was unavailable in this session; HTML structural checks do not constitute visual verification. Report pages contain embedded styles/SVG/scripts and require no network to read. External source links are references only.</p><ul><li><a href="https://nextjs.org/docs/14/app/api-reference/next-config-js/output">Next.js standalone output documentation</a></li><li><a href="https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/control-deployments">GitHub deployment and concurrency documentation</a></li></ul></section><section><h2>Report artifacts and history</h2><p>Updated docs/codebase/index.html, docs/codebase/changes/index.html and this task report. Earlier reports retained. Generated markup excluded from recursive diffs. Final source commit and workflow run are recorded in issue #7 and status above.</p></section><script>document.getElementById("filter").addEventListener("input",function(){for(const d of document.querySelectorAll(".diff"))d.hidden=!d.querySelector("summary").textContent.toLowerCase().includes(this.value.toLowerCase())})</script></main></body></html>

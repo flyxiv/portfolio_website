@@ -1,0 +1,69 @@
+name: Deploy portfolio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: https://junyeopnaportfolio.dev
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install and build
+        run: |
+          bash -n scripts/deploy/*.sh
+          python3 scripts/deploy/test-extract-release.py
+          npm ci
+          npm run build
+      - name: Package standalone release
+        run: bash scripts/deploy/package.sh "$GITHUB_SHA" "$RUNNER_TEMP/portfolio-release.tar.gz"
+      - name: Deploy and verify public revision
+        env:
+          VM_HOST: ${{ vars.VM_HOST }}
+          VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          VM_SSH_KNOWN_HOSTS: ${{ secrets.VM_SSH_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VM_HOST"
+          umask 077
+          ssh_dir=$(mktemp -d "$RUNNER_TEMP/portfolio-ssh.XXXXXX")
+          trap 'rm -rf -- "$ssh_dir"' EXIT
+          printf '%s\n' "$VM_SSH_PRIVATE_KEY" > "$ssh_dir/key"
+          printf '%s\n' "$VM_SSH_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          ssh -i "$ssh_dir/key" -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$ssh_dir/known_hosts" \
+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 \
+            "portfolio-deploy@$VM_HOST" "deploy $GITHUB_SHA" < "$RUNNER_TEMP/portfolio-release.tar.gz"
+          for attempt in $(seq 1 15); do
+            actual=$(curl --fail --silent --show-error --max-time 10 \
+              "https://junyeopnaportfolio.dev/deployment-revision.txt?expected=$GITHUB_SHA") || actual=''
+            if [ "$actual" = "$GITHUB_SHA" ]; then
+              echo "Deployed $GITHUB_SHA to https://junyeopnaportfolio.dev" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'Public revision check failed; inspect the VM and workflow logs.' >&2
+          exit 1

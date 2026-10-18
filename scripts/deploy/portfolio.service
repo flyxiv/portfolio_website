@@ -1,0 +1,27 @@
+[Unit]
+Description=Junyeop Na portfolio
+After=network.target
+
+[Service]
+Type=simple
+User=portfolio-deploy
+Group=portfolio-deploy
+WorkingDirectory=/mnt/data/portfolio/current
+ExecStart=/bin/bash /mnt/data/portfolio/current/start.sh
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3001
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/mnt/data/portfolio
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target
