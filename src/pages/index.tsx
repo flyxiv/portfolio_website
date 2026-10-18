@@ -22,8 +22,8 @@ const Portfolio = () => {
       skills: [
         "/images/skills/tensorflow.png",
         "/images/skills/torch.png",
-        "/images/skills/tensorrt.svg",
-        "/images/skills/triton.svg"
+        "/images/skills/tensorrt.png",
+        "/images/skills/triton.png"
       ],
       skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"]
     },
@@ -132,8 +132,8 @@ const Portfolio = () => {
 		skills: [
 			"/images/skills/tensorflow.png",
 			"/images/skills/torch.png",
-			"/images/skills/tensorrt.svg",
-			"/images/skills/triton.svg"
+			"/images/skills/tensorrt.png",
+			"/images/skills/triton.png"
 		],
 		skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"],
 		period: "2026"
@@ -146,8 +146,8 @@ const Portfolio = () => {
 		skills: [
 			"/images/skills/tensorflow.png",
 			"/images/skills/torch.png",
-			"/images/skills/tensorrt.svg",
-			"/images/skills/triton.svg"
+			"/images/skills/tensorrt.png",
+			"/images/skills/triton.png"
 		],
 		skillLabels: ["TensorFlow", "PyTorch", "TensorRT", "Triton"],
 		period: "2026"
